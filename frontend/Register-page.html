@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JoinIn - Sign Up</title>
-    <link rel="stylesheet" href="Register-page.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <title>Sign Up | JoinIn</title>
 </head>
-<body>
-    <div class="container">
-        <h1>Welcome to</h1>
-        <h2>
-            <img src="logo.png" alt="JoinIn Logo" class="logo">
-        </h2>
-        
-        <form>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="password" placeholder="Confirm Password" required>
 
-            <div class="options">
-                <label><input type="checkbox"> Remember me</label>
-                <a href="#">Forgot Password?</a>
-            </div>
+<body class="bg-gray-100">
+  <div class="min-h-screen flex flex-col justify-center p-4">
+    <div class="max-w-md mx-auto bg-[#0F2449] rounded-3xl w-full py-8 px-6 sm:px-10 md:max-w-lg">
+      <div class="flex flex-col gap-3">
+        <!-- Heading -->
+        <div class="flex flex-col items-center gap-0">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl text-black font-extrabold text-center">Welcome to</h1>
+          <img class="w-40 sm:w-48 md:w-[270px]" src="logo.png" alt="JoinIn Logo" />
+        </div>
 
-            <button type="submit">Sign Up</button>
-        </form>
+        <!-- Input Fields -->
+        <div class="py-6 md:py-8 flex flex-col gap-6 md:gap-8">
+          <input placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="email" required />
+          <input placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="password" required />
+          <input placeholder="Confirm Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="password" required />
+        </div>
 
-        <p class="footer-text">Already have an account? <a href="#">Log in</a></p>
+        <!-- Checkbox & Forgot Password -->
+        <div class="text-white flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+          <div class="flex items-center gap-2">
+            <input class="w-4 h-4" type="checkbox" name="remember" id="remember">
+            <label class="text-sm md:text-base" for="remember">Remember me</label>
+          </div>
+          <a class="hover:text-red-500 text-sm md:text-base" href="#">Forgot Password?</a>
+        </div>
+
+        <!-- Sign-Up Button -->
+        <div class="flex justify-center py-5">
+          <button type="submit" class="bg-[#A30101] text-lg md:text-xl font-bold text-white rounded-lg w-full text-center py-3 md:py-4 hover:bg-red-800 transition-colors">
+            Sign Up
+          </button>
+        </div>
+
+        <!-- Already have an account -->
+        <div class="text-center text-white text-sm mt-2">
+          <span>Already have an account? </span>
+          <a href="#" class="text-blue-300 hover:underline">Log in</a>
+        </div>
+      </div>
     </div>
+  </div>
 </body>
+
 </html>
