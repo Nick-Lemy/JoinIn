@@ -9,12 +9,15 @@ body {
 }
 
 .container {
-    background-color: rgb(20, 20, 83);
+    background-color: #0F2449; 
     padding: 40px;
     border-radius: 10px;
     width: 320px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
 }
 
 .container h1 {
@@ -24,6 +27,8 @@ body {
 
 .container form {
     display: flex;
+    justify-content: center;
+    justify-items: center;
     flex-direction: column;
 }
 
@@ -44,6 +49,7 @@ input {
     margin: 10px 0;
     border-radius: 5px;
     border: 1px solid;
+    border-color: white;
     font-size: 16px;
 }
 
