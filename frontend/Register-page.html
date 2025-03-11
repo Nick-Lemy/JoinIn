@@ -5,46 +5,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-  <title>Sign Up | JoinIn</title>
+  <title>Login Page | JoinIn</title>
 </head>
 
 <body class="bg-gray-100">
   <div class="min-h-screen flex flex-col justify-center p-4">
-    <div class="max-w-md mx-auto bg-[#0F2449] rounded-3xl w-full py-8 px-6 sm:px-10 md:max-w-lg">
+    <div class="max-w-sm mx-auto bg-[#0F2449] rounded-2xl w-full py-8 px-6 sm:max-w-md">
       <div class="flex flex-col gap-3">
-        <!-- Heading -->
-        <div class="flex flex-col items-center gap-0">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl text-black font-extrabold text-center">Welcome to</h1>
-          <img class="w-40 sm:w-48 md:w-[270px]" src="logo.png" alt="JoinIn Logo" />
+        <div class="flex flex-col items-center">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-black text-center">Welcome to</h1>
+          <img class="w-36 sm:w-48" src="logo.png" alt="JoinIn Logo" />
         </div>
-
-        <!-- Input Fields -->
-        <div class="py-6 md:py-8 flex flex-col gap-6 md:gap-8">
-          <input placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="email" required />
-          <input placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="password" required />
-          <input placeholder="Confirm Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-lg md:text-xl" type="password" required />
+        <div class="py-6 flex flex-col gap-5">
+          <input placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="email" />
+          <input placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
+          <input placeholder="Confirm Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
         </div>
-
-        <!-- Checkbox & Forgot Password -->
-        <div class="text-white flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+        <div class="text-white flex justify-between">
           <div class="flex items-center gap-2">
             <input class="w-4 h-4" type="checkbox" name="remember" id="remember">
-            <label class="text-sm md:text-base" for="remember">Remember me</label>
+            <label class="text-sm sm:text-base" for="remember">Remember me</label>
           </div>
-          <a class="hover:text-red-500 text-sm md:text-base" href="#">Forgot Password?</a>
+          <a class="hover:text-red-500 text-sm sm:text-base" href="#">
+            Forgot Password?
+          </a>
         </div>
-
-        <!-- Sign-Up Button -->
-        <div class="flex justify-center py-5">
-          <button type="submit" class="bg-[#A30101] text-lg md:text-xl font-bold text-white rounded-lg w-full text-center py-3 md:py-4 hover:bg-red-800 transition-colors">
-            Sign Up
-          </button>
+        <div class="flex justify-center py-4 mt-2">
+          <a class="bg-[#A30101] text-base sm:text-lg font-bold text-white rounded-lg w-full text-center py-3 hover:bg-red-800 transition-colors" href="#">
+            Sign up
+          </a>
         </div>
-
-        <!-- Already have an account -->
-        <div class="text-center text-white text-sm mt-2">
+        <div class="text-center text-white text-sm mt-1">
           <span>Already have an account? </span>
-          <a href="#" class="text-blue-300 hover:underline">Log in</a>
+          <a href="#" class="text-blue-300 hover:underline">Login</a>
         </div>
       </div>
     </div>
