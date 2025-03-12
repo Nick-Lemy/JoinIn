@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.mjs";
 import { createUserController } from "./controllers/userController.mjs";
 import { Database } from "@sqlitecloud/drivers";
-const db = new Database(
-  "sqlitecloud://cmhnorvhnk.g2.sqlite.cloud:8860/database.sqlite?apikey=8dq4ojnRIegTIrykmIgu318hh7IAORNIeaL8k9ribSY"
-);
 
 dotenv.config();
 const PORT = process.env.PORT || 4035;
+const SQL_DRIVE = process.env.SQL_DRIVE;
+
+const db = new Database(SQL_DRIVE);
 const app = express();
 
 app.use(express.json());
@@ -20,9 +20,11 @@ app.get("/", async (req, res) => {
   res.sendStatus(200);
 });
 app.post("/", async (req, res) => {
+  const { email, password_hash, first_name, last_name, phone_number } =
+    req.body;
   const result = await db.sql(`
 INSERT INTO users (email, password_hash, first_name, last_name, phone_number)
-VALUES ('nicklemykayiranga@gmail.com', '1234', 'Nick-Lemy', 'Kayiranga', '+250793246060');
+VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phone_number}');
 `);
   console.log(result);
   res.sendStatus(200);
