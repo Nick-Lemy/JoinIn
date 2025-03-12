@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@sqlitecloud/drivers": "^1.0.422",
     "express": "^4.21.2",
     "mysql": "^2.18.1",
     "sequelize": "^6.37.6",

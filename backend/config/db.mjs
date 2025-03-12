@@ -1,8 +1,8 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 
-export const sequelize = new Sequelize({
+const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "./database.sqlite",
+  storage: "../config/database.sqlite",
 });
 
 // User Model
@@ -246,5 +246,3 @@ export const syncDatabase = async () => {
     console.error("Error syncing database:", error);
   }
 };
-
-syncDatabase();
