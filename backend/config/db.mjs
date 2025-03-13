@@ -60,13 +60,11 @@ Event.init(
     description: {
       type: DataTypes.TEXT,
     },
-    start_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    image_link: {
+      type: DataTypes.TEXT,
     },
-    end_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    date: {
+      type: DataTypes.TEXT,
     },
     location: {
       type: DataTypes.STRING(255),
