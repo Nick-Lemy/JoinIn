@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-  <title>Login Page | JoinIn</title>
+  <title>Registration Page | JoinIn</title>
 </head>
 
 <body class="bg-gray-100">
@@ -13,12 +13,13 @@
     <div class="max-w-sm mx-auto bg-[#0F2449] rounded-2xl w-full py-8 px-6 sm:max-w-md">
       <div class="flex flex-col gap-3">
         <div class="flex flex-col items-center">
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-black text-center">Welcome Back To</h1>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-black text-center">Welcome to</h1>
           <img class="w-36 sm:w-48" src="./assets/logo.png" alt="JoinIn Logo" />
         </div>
         <div class="py-6 flex flex-col gap-5">
           <input placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="email" />
           <input placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
+          <input placeholder="Confirm Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
         </div>
         <div class="text-white flex justify-between">
           <div class="flex items-center gap-2">
@@ -30,13 +31,13 @@
           </a>
         </div>
         <div class="flex justify-center py-4 mt-2">
-          <a class="bg-[#A30101] text-base sm:text-lg font-bold text-white rounded-lg w-full text-center py-3 hover:bg-red-800 transition-colors" href="#">
-            LogIn
+          <a class="bg-[#A30101] text-base sm:text-lg font-bold text-white rounded-lg w-full text-center py-3 hover:bg-red-800 transition-colors" href="">
+            Sign up
           </a>
         </div>
         <div class="text-center text-white text-sm mt-1">
-          <span>Don't have an account? </span>
-          <a href="./register-page.html" class="text-blue-300 hover:underline">Sign Up</a>
+          <span>Already have an account? </span>
+          <a href="./login-page.html" class="text-blue-300 hover:underline">Login</a>
         </div>
       </div>
     </div>

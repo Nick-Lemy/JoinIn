@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Event Card */
+.event-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.event-image {
+    width: 120px;
+    height: 80px;
+    background: linear-gradient(135deg, #ccc, #eee);
+    border-radius: 5px;
+}
+
+/* Event Info */
+.event-info {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.event-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.event-location {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.event-location::before {
+    content: "📍";
+    margin-right: 5px;
+    color: blue;
+}
+
+.event-description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Animated Arrow */
+.arrow {
+    font-size: 24px;
+    color: #555;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .arrow {
+    transform: translateX(5px);
+}
+
+/* News Section */
+.news-section {
+    background-color: #0c2340;
+    color: white;
+    padding: 30px 20px;
+    margin-top: 40px;
+}
+
+.news-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.news-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.news-card {
+    background: white;
+    color: black;
+    border-radius: 8px;
+    padding: 15px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.news-image {
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(135deg, #ccc, #eee);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.news-title-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.news-description {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .event-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-image {
+        width: 100%;
+        height: 120px;
+    }
+
+    .event-info {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .arrow {
+        align-self: flex-end;
+    }
+
+    .news-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
