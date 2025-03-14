@@ -5,7 +5,6 @@ const sequelize = new Sequelize({
   storage: "../config/database.sqlite",
 });
 
-// User Model
 export class User extends Model {}
 User.init(
   {
