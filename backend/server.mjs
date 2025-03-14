@@ -6,6 +6,7 @@ import { Database } from "@sqlitecloud/drivers";
 import path from "path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import cors from "cors";
 
 const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
 
@@ -15,6 +16,8 @@ const SQL_DRIVE = process.env.SQL_DRIVE;
 
 export const db = new Database(SQL_DRIVE);
 const app = express();
+
+app.use(cors({ origin: "*" }));
 
 app.use(express.json());
 app.use("/api/auth", userRoutes);
