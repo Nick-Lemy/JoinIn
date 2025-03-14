@@ -23,8 +23,16 @@ app.use("/api/auth", userRoutes);
 app.use("/api/admin/", eventRoutes);
 app.use(express.static(__dirname));
 app.set("views", __dirname);
+
+// pages routes
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "index.html"));
+});
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname + "register.html"));
+});
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname + "login.html"));
 });
 app.get("/events", (req, res) => {
   res.sendFile(path.join(__dirname + "events.html"));
