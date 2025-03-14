@@ -49,7 +49,7 @@ const fetchAll = async () => {
         content += `
 <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
   <div class="relative">
-    <img src="${image_link}" alt="Event" class="w-fit h-48 object-cover">
+    <img src="${image_link}" alt="Event" class="w-full h-48 object-cover">
   </div>
   <div class="p-4">
     <h3 class="text-lg font-bold mb-2">${title}</h3>
