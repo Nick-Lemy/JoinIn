@@ -19,6 +19,12 @@ const events = [
   },
 ];
 
+document.getElementById("menu-toggle").addEventListener("click", function () {
+  const menu = document.getElementById("menu");
+  menu.classList.toggle("hidden");
+  menu.classList.toggle("flex");
+});
+
 const eventCards = document.querySelectorAll(".event-card");
 
 eventCards.forEach((card, index) => {
