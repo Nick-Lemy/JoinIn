@@ -5,13 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JoinIn - Event Management</title>
-  <link rel="stylesheet" href="home.css" />
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="relative">
   <header class="sticky z-40 -top-0.5">
-    <nav class="bg-[#0F2449] border-blue-950 py-4 shadow-[0_20px_50px_rgba(15,_36,_73,_1)] border-b-1">
+    <nav class="bg-[#0F2449] border-blue-950 py-4 shadow-[0_20px_50px_rgba(10,_10,_10,_0.4)] border-b-1">
       <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-4 md:px-6">
         <a href="/"><img src="assets/logo.png" alt="JoinIn logo" class="w-32 md:w-40 h-auto" /></a>
         <button id="menu-toggle" class="md:hidden block text-white">
@@ -31,20 +30,22 @@
       </div>
     </nav>
   </header>
-
-  <section class="bg-linear-to-t from-[#A30101] to-[#0B202F] py-6 md:py-10">
-    <div class="flex flex-col-reverse py-8 md:flex-row max-w-7xl mx-auto justify-between items-center px-4 md:px-6">
-      <div class="hero-image w-fit md:w-1/2 flex justify-center mt-6 md:mt-0">
-        <img src="assets/portrait-young-happy-man_transparent_Craiyon.png" alt="Student Using Phone" class="w-fit h-auto" />
-      </div>
-      <div class="flex gap-4 md:gap-6 justify-center text-center items-center flex-col hero-content w-full md:w-1/2">
-        <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold text-white">
-          Your Best Event Management
-        </h1>
-        <h2 class="brand-name">
-          <img src="assets/logo.png" alt="JoinIn logo" class="logo-img w-40 md:w-auto" />
-        </h2>
-        <a href="/events" class="text-lg shadow-[0_15px_20px_rgba(0,_0,_0,_0.5)] bg-[#0F2449] text-white rounded-md py-3 px-8 md:px-12">Get Started</a>
+  <!-- bg-gradient-to-t from-[#A30101] to-[#0B202F]  -->
+  <section class="bg-[url('https://www.newtimes.co.rw/thenewtimes/uploads/images/2025/03/05/thumbs/1200x700/71867.jpg')] bg-cover">
+    <div class="w-full bg-[#0B202F]/60 py-6 md:py-10 h-full">
+      <div class="flex flex-col-reverse py-8 md:flex-row max-w-7xl mx-auto justify-center items-center px-4 md:px-6">
+        <!-- <div class="hero-image w-fit md:w-1/2 flex justify-center mt-6 md:mt-0">
+          <img src="assets/portrait-young-happy-man_transparent_Craiyon.png" alt="Student Using Phone" class="w-fit h-auto" />
+        </div> -->
+        <div class="flex gap-4 md:gap-6 justify-center text-center items-center flex-col hero-content w-full md:w-1/2">
+          <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold text-white">
+            Your Best Event Management
+          </h1>
+          <h2 class="brand-name">
+            <img src="assets/logo.png" alt="JoinIn logo" class="logo-img w-40 md:w-auto" />
+          </h2>
+          <a href="/events" class="text-lg shadow-[0_15px_20px_rgba(0,_0,_0,_0.5)] bg-[#0F2449] text-white rounded-md py-3 px-8 md:px-12">Get Started</a>
+        </div>
       </div>
     </div>
   </section>
