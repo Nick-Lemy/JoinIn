@@ -18,7 +18,6 @@ export const db = new Database(SQL_DRIVE);
 const app = express();
 
 app.use(cors({ origin: "*" }));
-
 app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/admin/", eventRoutes);
