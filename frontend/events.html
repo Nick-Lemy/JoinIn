@@ -126,7 +126,7 @@
           const event1 = document.getElementById('event-1')
           console.log("Hi there")
           const nick = async () => {
-            await fetch('http://localhost:3000/api/admin/events').then(res => {
+            await fetch('https://joinin-1.onrender.com/api/admin/events').then(res => {
               return res.json()
             }).then(data => {
               const {
