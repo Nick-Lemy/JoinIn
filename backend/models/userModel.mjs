@@ -16,15 +16,3 @@ VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phon
     throw error;
   }
 };
-
-// Remove user
-// async (req, res) => {
-//   const { email, password_hash, first_name, last_name, phone_number } =
-//     req.body;
-//   const result = await db.sql(`
-// INSERT INTO users (email, password_hash, first_name, last_name, phone_number)
-// VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phone_number}');
-// `);
-//   console.log(result);
-//   res.sendStatus(200);
-// };
