@@ -1,5 +1,6 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.mjs";
+import { showAllUsers } from "./models/userModel.mjs";
 import eventRoutes from "./routes/eventRouters.mjs";
 import { Database } from "@sqlitecloud/drivers";
 import path from "path";
@@ -11,6 +12,7 @@ import bodyParser from "body-parser";
 import { RedisStore } from "connect-redis";
 import { createClient } from "redis";
 import { envVariables } from "./config.mjs";
+import { authVerification } from "./middlewares/authMiddleware.mjs";
 
 const {
   PORT,
@@ -53,15 +55,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use("/api/auth", userRoutes);
+app.use("/api/", userRoutes);
 app.use("/api/admin/", eventRoutes);
 app.use(express.static(__dirname));
 app.set("views", __dirname);
 
-// test
-app.post("/login", (req, res) => {
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname + "register.html"));
+});
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname + "login.html"));
+});
+
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  if (email === USER.email && password === USER.password) {
+  const allUsers = await showAllUsers();
+  const findUser = allUsers.find(
+    (user) => user.email === email && user.password_hash === password
+  );
+  if (findUser) {
     req.session.isAuthenticated = true;
     res.send({ login: true });
   } else {
@@ -69,21 +81,14 @@ app.post("/login", (req, res) => {
   }
 });
 
+app.use(authVerification);
+// test
+
 // pages routes
 app.get("/", (req, res) => {
-  console.log(req.session.isAuthenticated);
-  if (req.session.isAuthenticated) {
-    res.sendFile(path.join(__dirname + "home.html"));
-  } else {
-    res.redirect("/login");
-  }
+  res.sendFile(path.join(__dirname + "home.html"));
 });
-app.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname + "register.html"));
-});
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname + "login.html"));
-});
+
 app.get("/events", (req, res) => {
   res.sendFile(path.join(__dirname + "events.html"));
 });
