@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <title>Login Page | JoinIn</title>
 </head>
 
@@ -17,8 +19,8 @@
           <img class="w-36 sm:w-48" src="./assets/logo.png" alt="JoinIn Logo" />
         </div>
         <div class="py-6 flex flex-col gap-5">
-          <input placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="email" />
-          <input placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
+          <input id="email" placeholder="Email" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="email" />
+          <input id="password" placeholder="Password" class="text-white px-4 py-3 w-full border border-white rounded-lg bg-transparent text-base" type="password" />
         </div>
         <div class="text-white flex justify-between">
           <div class="flex items-center gap-2">
@@ -30,15 +32,44 @@
           </a>
         </div>
         <div class="flex justify-center py-4 mt-2">
-          <a class="bg-[#A30101] text-base sm:text-lg font-bold text-white rounded-lg w-full text-center py-3 hover:bg-red-800 transition-colors" href="./index.html">
+          <a id="login-btn" class="bg-[#A30101] text-base sm:text-lg font-bold text-white rounded-lg w-full text-center py-3 hover:bg-red-800 transition-colors">
             LogIn
           </a>
         </div>
         <div class="text-center text-white text-sm mt-1">
           <span>Don't have an account? </span>
-          <a href="./register-page.html" class="text-blue-300 hover:underline">Sign Up</a>
+          <a href="/register" class="text-blue-300 hover:underline">Sign Up</a>
         </div>
       </div>
+      <script>
+        const email = document.getElementById('email')
+        const password = document.getElementById('password')
+        const loginButton = document.getElementById('login-btn')
+        loginButton.addEventListener('click', () => {
+
+          fetch('http://localhost:3000/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json' // sending JSON data
+              },
+              body: JSON.stringify({
+                email: email.value,
+                password: password.value
+              })
+            }).then(response => response.json())
+            .then(data => {
+              console.log(data.login)
+              if (data.login) {
+                window.open('/')
+              } else {
+                alert('credential error')
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        })
+      </script>
     </div>
   </div>
 </body>
