@@ -16,3 +16,15 @@ VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phon
     throw error;
   }
 };
+
+export const showAllUsers = async () => {
+  try {
+    const allUsers = await db.sql(`
+      SELECT * FROM users
+      `);
+    return allUsers;
+  } catch (error) {
+    console.error("Error retrieving users: ", error);
+    throw error;
+  }
+};
