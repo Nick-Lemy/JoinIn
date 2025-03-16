@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.mjs";
 import eventRoutes from "./routes/eventRouters.mjs";
 import { Database } from "@sqlitecloud/drivers";
@@ -11,21 +10,28 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import { RedisStore } from "connect-redis";
 import { createClient } from "redis";
-const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
+import { envVariables } from "./config.mjs";
 
-dotenv.config();
-const PORT = process.env.PORT || 4035;
-const SQL_DRIVE = process.env.SQL_DRIVE;
+const {
+  PORT,
+  SQL_DRIVE,
+  REDIS_PASSWORD,
+  REDIS_USERNAME,
+  REDIS_HOST,
+  REDIS_PORT,
+} = envVariables;
+
+const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
 
 export const db = new Database(SQL_DRIVE);
 const app = express();
 
 const redisClient = createClient({
-  username: "nick-lemy",
-  password: "Uz_#8CcdE7JZ#ZR",
+  username: REDIS_USERNAME,
+  password: REDIS_PASSWORD,
   socket: {
-    host: "redis-18436.c245.us-east-1-3.ec2.redns.redis-cloud.com",
-    port: 18436,
+    host: REDIS_HOST,
+    port: REDIS_PORT,
   },
 });
 
@@ -37,7 +43,7 @@ app.use(
     secret: "mySecretKey",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 15 }, // 15 minutes
+    cookie: { maxAge: 1000 * 60 * 2 }, // 15 minutes
   })
 );
 
