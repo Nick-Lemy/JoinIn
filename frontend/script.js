@@ -51,7 +51,7 @@ const fetchAll = async () => {
   <div class="w-1/2 md:w-1/4">
     <img src="${image_link}" alt="Event" class="w-full h-full  md:h-48 object-cover">
   </div>
-  <div class="w-1/ md:w-3/4 flex flex-col justify-center p-4">
+  <div class="w-1/2 md:w-3/4 flex flex-col justify-center p-4">
     <h3 class="text-lg font-bold text-center md:text-left mb-2">${title}</h3>
     <div class="flex items-center mb-2 text-sm">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
