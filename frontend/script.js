@@ -47,12 +47,12 @@ const fetchAll = async () => {
       for (const elem of data) {
         const { title, location, image_link, date, max_attendees } = elem;
         content += `
-<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
-  <div class="relative">
-    <img src="${image_link}" alt="Event" class="w-full h-48 object-cover">
+<div class="bg-white border rounded-lg flex shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
+  <div class="w-1/2 md:w-1/4">
+    <img src="${image_link}" alt="Event" class="w-full h-full  md:h-48 object-cover">
   </div>
-  <div class="p-4">
-    <h3 class="text-lg font-bold mb-2">${title}</h3>
+  <div class="w-1/ md:w-3/4 flex flex-col justify-center p-4">
+    <h3 class="text-lg font-bold text-center md:text-left mb-2">${title}</h3>
     <div class="flex items-center mb-2 text-sm">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -64,11 +64,11 @@ const fetchAll = async () => {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
-      <span>${location}</span>
+      <span class="">${location}</span>
     </div>
-    <div class="flex justify-between items-center mt-4">
+    <div class="hidden md:flex flex flex-col md:flex-row justify-between items-center mt-4">
       <span class="text-gray-500 text-sm">${max_attendees} spots left</span>
-      <a href="#" class="bg-[#0F2449] text-white py-1 px-4 rounded-md hover:bg-[#193865] transition-colors text-sm">Join Event</a>
+      <a href="#" class=" bg-[#0F2449] text-white py-1 px-4 rounded-md hover:bg-[#193865] transition-colors text-sm">Join Event</a>
     </div>
   </div>
 </div>`;
