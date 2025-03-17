@@ -47,11 +47,11 @@ const fetchAll = async () => {
       for (const elem of data) {
         const { title, location, image_link, date, max_attendees } = elem;
         content += `
-<div class="bg-white border rounded-lg md:flex shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
-  <div class="md:w-1/4">
+<div class="bg-white border rounded-lg sm:flex shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
+  <div class="sm:w-1/4">
     <img src="${image_link}" alt="Event" class="w-full h-44 object-cover">
   </div>
-  <div class="md:w-3/4 flex flex-col justify-center p-4">
+  <div class="sm:w-3/4 flex flex-col justify-center p-4">
     <h3 class="text-lg font-bold mb-2">${title}</h3>
     <div class="flex items-center mb-2 text-sm">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
