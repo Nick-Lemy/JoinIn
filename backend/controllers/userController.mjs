@@ -1,10 +1,9 @@
 import { createUser, showAllUsers } from "../models/userModel.mjs";
 
-// User Creation controller
-
 export const createUserController = async (req, res) => {
   try {
     const newUser = await createUser(req.body);
+    req.session.isAuthenticated = true;
     res.status(201).send(newUser);
   } catch (error) {
     res
