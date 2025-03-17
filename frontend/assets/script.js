@@ -38,7 +38,7 @@ eventCards.forEach((card, index) => {
 
 const eventsContainer = document.getElementById("events");
 const fetchAll = async () => {
-  await fetch("http://localhost:3000/api/events")
+  await fetch("https://joinin-1.onrender.com/api/events")
     .then((res) => {
       return res.json();
     })
