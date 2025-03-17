@@ -1,8 +1,7 @@
-import { User } from "../config/db.mjs";
-import { db } from "../server.mjs";
+import { db } from "../config.mjs";
 
 // Create a user
-export const createUser = async (userInfo) => {
+export const userRegister = async (userInfo) => {
   try {
     const { email, password_hash, first_name, last_name, phone_number } =
       userInfo;
@@ -17,12 +16,15 @@ VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phon
   }
 };
 
-export const showAllUsers = async () => {
+export const userLogin = async ({email, password_hash}) => {
   try {
     const allUsers = await db.sql(`
       SELECT * FROM users
       `);
-    return allUsers;
+    const findUser = allUsers.find(
+        (user) => user.email === email && user.password_hash === password_hash
+    );
+    return findUser
   } catch (error) {
     console.error("Error retrieving users: ", error);
     throw error;

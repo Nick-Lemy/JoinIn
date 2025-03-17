@@ -1,28 +1,29 @@
-import { createUser, showAllUsers } from "../models/userModel.mjs";
+import { userRegister, userLogin } from "../models/userModel.mjs";
 
-export const createUserController = async (req, res) => {
+export const userRegisterController = async (req, res) => {
   try {
-    const newUser = await createUser(req.body);
+    const newUser = await userRegister(req.body);
     req.session.isAuthenticated = true;
-    res.status(201).send(newUser);
+    return res.status(201).send(newUser);
   } catch (error) {
-    res
+    return res
       .status(500)
       .send({ message: "Failed to create user", error: error.message });
   }
 };
 
-export const checkIfUserExists = async (req, res) => {
+export const userLoginController = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const allUsers = await showAllUsers();
-    const findUser = allUsers.find(
-      (user) => user.email === email && user.password === password
-    );
-    res.status(200).send(allUsers);
+    const findUser = await userLogin(req.body);
+    if (findUser) {
+      req.session.isAuthenticated = true;
+      return res.status(200).send({ login: true });
+    } else {
+      return res.status(404).send({ login: false });
+    }
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Failed to get users", error: error.message });
+    return res
+    .status(500)
+    .send({ message: "Failed to create user", error: error.message })
   }
 };

@@ -47,14 +47,14 @@
         const loginButton = document.getElementById('login-btn')
         loginButton.addEventListener('click', () => {
 
-          fetch('https://joinin-1.onrender.com/login', {
+          fetch('http://localhost:3000/auth/login/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json' // sending JSON data
               },
               body: JSON.stringify({
                 email: email.value,
-                password: password.value
+                password_hash: password.value
               })
             }).then(response =>
               response.json()
