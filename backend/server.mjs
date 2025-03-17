@@ -13,6 +13,13 @@ import { RedisStore } from "connect-redis";
 import { createClient } from "redis";
 import { envVariables } from "./config.mjs";
 import { authVerification } from "./middlewares/authMiddleware.mjs";
+import bcrypt from "bcrypt";
+
+async function store(password) {
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+}
 
 const {
   PORT,
@@ -57,9 +64,8 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/api/", userRoutes);
 app.use("/api/admin/", eventRoutes);
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + "assets/"));
 app.set("views", __dirname);
-
 app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname + "register.html"));
 });
