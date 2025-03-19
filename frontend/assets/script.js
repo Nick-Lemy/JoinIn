@@ -38,7 +38,7 @@ eventCards.forEach((card, index) => {
 
 const eventsContainer = document.getElementById("events");
 const fetchAll = async () => {
-  await fetch("http://http://3.95.222.45:3000//api/events")
+  await fetch("http://http://3.95.222.45:3000/api/events")
     .then((res) => {
       return res.json();
     })
