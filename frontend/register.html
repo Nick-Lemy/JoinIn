@@ -56,7 +56,7 @@
     registerButton.addEventListener('click', () => {
       console.log('clicked')
       if (confirm_password.value === password.value && password.value !== '') {
-        fetch('http://3.95.222.45:3000/auth/register', {
+        fetch('http://3.95.222.45/auth/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
