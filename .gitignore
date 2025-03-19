@@ -1,4 +1,5 @@
-/backend/node_modules/
-/backend/.env
+backend/node_modules/
+backend/.env
 database.sqlite
-/backend/config/
+backend/config/
+config

@@ -38,7 +38,7 @@ eventCards.forEach((card, index) => {
 
 const eventsContainer = document.getElementById("events");
 const fetchAll = async () => {
-  await fetch("https://joinin-1.onrender.com/api/events")
+  await fetch("http://localhost:3000/api/events")
     .then((res) => {
       return res.json();
     })
@@ -47,7 +47,7 @@ const fetchAll = async () => {
       for (const elem of data) {
         const { title, location, image_link, date, max_attendees } = elem;
         content += `
-<div class="bg-white border rounded-lg sm:flex shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
+<div class="bg-white border rounded-lg sm:flex shadow-md overflow-hidden transition-transform hover:scale-[1.005]">
   <div class="sm:w-1/4">
     <img src="${image_link}" alt="Event" class="w-full h-44 object-cover">
   </div>

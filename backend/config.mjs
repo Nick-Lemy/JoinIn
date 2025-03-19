@@ -5,6 +5,7 @@ import { Database } from "@sqlitecloud/drivers";
 import { createClient } from "redis";
 import session from "express-session";
 import { RedisStore } from "connect-redis";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 export const envVariables = {
@@ -38,8 +39,20 @@ export const sessionHandler = session({
 })
 
 
-async function passwordHasher(password) {
+export const passwordHasher = async (password) => {
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
+}
+
+
+export const verify = async (password, storedPassword) => {
+  const passwordMatched = await bcrypt.compare(password, storedPassword);
+
+  if(passwordMatched) {
+      console.log('OK: Verification is successful.');
+  }
+  else {
+      console.error('ERR: Verification failed.');
+  }
 }

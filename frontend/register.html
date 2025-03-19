@@ -56,7 +56,7 @@
     registerButton.addEventListener('click', () => {
       console.log('clicked')
       if (confirm_password.value === password.value && password.value !== '') {
-        fetch('https://joinin-1.onrender.com/auth/register', {
+        fetch('http://localhost:3000/auth/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
