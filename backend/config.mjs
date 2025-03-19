@@ -8,24 +8,27 @@ import { RedisStore } from "connect-redis";
 import bcrypt from "bcrypt";
 
 dotenv.config();
-export const envVariables = {
-  PORT: process.env.PORT || 4035,
-  SQL_DRIVE: process.env.SQL_DRIVE,
-  REDIS_USERNAME: process.env.REDIS_USERNAME,
-  REDIS_PASSWORD: process.env.REDIS_PASSWORD,
-  REDIS_HOST: process.env.REDIS_HOST,
-  REDIS_PORT: process.env.REDIS_PORT,
-};
 
-export const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
-export const db = new Database(envVariables.SQL_DRIVE);
+export const {
+  PORT,
+  SQL_DRIVE,
+  REDIS_USERNAME,
+  REDIS_PASSWORD,
+  REDIS_HOST,
+  REDIS_PORT,
+  SESSION_DURATION,
+} = process.env;
+
+export const __dirname =
+  dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
+export const db = new Database(SQL_DRIVE);
 
 export const redisClient = createClient({
-  username: envVariables.REDIS_USERNAME,
-  password: envVariables.REDIS_PASSWORD,
+  username: REDIS_USERNAME,
+  password: REDIS_PASSWORD,
   socket: {
-    host: envVariables.REDIS_HOST,
-    port: envVariables.REDIS_PORT,
+    host: REDIS_HOST,
+    port: REDIS_PORT,
   },
 });
 redisClient.connect().catch(console.error);
@@ -35,24 +38,21 @@ export const sessionHandler = session({
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 15 }, // 15 minutes
-})
-
+  cookie: { maxAge: SESSION_DURATION | (1000 * 60 * 15) }, // 15 minutes
+});
 
 export const passwordHasher = async (password) => {
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
-}
-
+};
 
 export const verify = async (password, storedPassword) => {
   const passwordMatched = await bcrypt.compare(password, storedPassword);
 
-  if(passwordMatched) {
-      console.log('OK: Verification is successful.');
+  if (passwordMatched) {
+    console.log("OK: Verification is successful.");
+  } else {
+    console.error("ERR: Verification failed.");
   }
-  else {
-      console.error('ERR: Verification failed.');
-  }
-}
+};

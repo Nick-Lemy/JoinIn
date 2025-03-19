@@ -2,15 +2,14 @@ import express from "express";
 import path from "path";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { envVariables } from "./config.mjs";
 import { authVerification } from "./middlewares/authMiddleware.mjs";
+import { PORT } from "./config.mjs";
 import userRoutes from "./routes/userRoutes.mjs";
 import eventRoutes from "./routes/eventRouters.mjs";
 import { __dirname } from "./config.mjs";
 import { sessionHandler } from "./config.mjs";
 
 const app = express();
-const PORT = envVariables.PORT;
 
 app.use(sessionHandler);
 app.use(bodyParser.urlencoded({ extended: true }));
