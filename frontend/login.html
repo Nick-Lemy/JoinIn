@@ -47,7 +47,7 @@
         const loginButton = document.getElementById('login-btn')
         loginButton.addEventListener('click', () => {
 
-          fetch('http://joinin.nick-lemy.tech/auth/login/', {
+          fetch('http://3.95.222.45/auth/login/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json' // sending JSON data
@@ -61,7 +61,7 @@
             )
             .then(data => {
               if (data.login) {
-                window.open('/', 'noopener,noreferrer')
+                window.open('/')
               } else {
                 alert('credential error')
               }
