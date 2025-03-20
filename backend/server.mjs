@@ -8,7 +8,6 @@ import userRoutes from "./routes/userRoutes.mjs";
 import eventRoutes from "./routes/eventRouters.mjs";
 import { __dirname } from "./config.mjs";
 import { sessionHandler } from "./config.mjs";
-import { title } from "process";
 import { showAllEvents } from "./models/eventModel.mjs";
 
 const app = express();
@@ -83,10 +82,10 @@ function returnEvent(
     </nav>
   </header>
   <!-- Event Details Container -->
-  <div class="max-w-7xl mx-auto py-8 items-center px-9 sm:px-0">
+  <div class="max-w-7xl mx-auto py-8 items-center px-7 sm:px-8">
     <!-- Simplified Breadcrumb -->
     <nav class="flex mb-6" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1 md:space-x-2">
+      <ol class="inline-flex items-center">
         <li class="inline-flex items-center">
           <a href="/" class="text-sm text-gray-600 hover:text-[#0F2449]">Home</a>
         </li>
@@ -99,7 +98,7 @@ function returnEvent(
           </div>
         </li>
         <li>
-          <div class="flex items-center">
+          <div class="flexr">
             <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
             </svg>
@@ -113,7 +112,7 @@ function returnEvent(
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
       <!-- Image Section with Overlay -->
       <div class="relative">
-        <img src=${image_link} alt="Event" class="w-full h-64 sm:h-80 object-cover">
+        <img src=${image_link} alt="Event" class="w-full h-64 sm:h-72 object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
         <div class="absolute bottom-0 left-0 p-4 sm:p-6">
           <span class="bg-[#0F2449] text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -122,7 +121,7 @@ function returnEvent(
         </div>
       </div>
       
-      <div class="p-6">
+      <div class="px-3 py-6">
         <!-- Event Title and Organizer -->
         <div class="mb-6">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">${title}</h1>
@@ -159,7 +158,7 @@ function returnEvent(
       
       <!-- Description Section -->
       <div class="border-t border-gray-200">
-        <div class="p-6">
+        <div class="py-6 px-3">
           <h2 class="text-xl font-bold mb-4">Event Description</h2>
           <div class="prose max-w-none">
             <p>${description}</p>
