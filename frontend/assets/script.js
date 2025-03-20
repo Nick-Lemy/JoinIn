@@ -27,6 +27,21 @@ document.getElementById("menu-toggle").addEventListener("click", function () {
 
 const eventCards = document.querySelectorAll(".event-card");
 
+const description = document.getElementById('description');
+
+// Function to render Markdown
+// function renderMarkdown() {
+//   const markdownText = `
+// # Hello World
+// This is **bold text**!
+// \`nick\`
+//   `;
+//   const html = marked.parse(markdownText);
+//   description.innerHTML = html;
+// }
+
+// renderMarkdown();
+
 eventCards.forEach((card, index) => {
   if (events[index]) {
     card.querySelector(".event-title").textContent = events[index].title;
@@ -45,7 +60,7 @@ const fetchAll = async () => {
     .then((data) => {
       let content = "";
       for (const elem of data) {
-        const { title, location, image_link, date, max_attendees } = elem;
+        const { id, title, location, image_link, date, max_attendees } = elem;
         content += `
 <div class="bg-white border rounded-lg sm:flex shadow-md overflow-hidden transition-transform hover:scale-[1.005]">
   <div class="sm:w-1/4">
@@ -68,7 +83,7 @@ const fetchAll = async () => {
     </div>
     <div class="flex justify-between items-center mt-4">
       <span class="text-gray-500 text-sm">${max_attendees} spots left</span>
-      <a href="#" class=" bg-[#0F2449] text-white py-1 px-4 rounded-md hover:bg-[#193865] transition-colors text-sm">Join Event</a>
+      <a href="/events/${id}" class=" bg-[#0F2449] text-white py-1 px-4 rounded-md hover:bg-[#193865] transition-colors text-sm">Join Event</a>
     </div>
   </div>
 </div>`;
