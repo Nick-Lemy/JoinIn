@@ -28,7 +28,7 @@ app.get("/login", (req, res) => {
   return res.sendFile(path.join(__dirname + "login.html"));
 });
 
-app.use(authVerification);
+// app.use(authVerification);
 
 app.get("/", (req, res) => {
   return res.sendFile(path.join(__dirname + "home.html"));
