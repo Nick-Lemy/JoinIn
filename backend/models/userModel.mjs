@@ -6,6 +6,7 @@ export const userRegister = async (userInfo) => {
     const { email, password_hash, first_name, last_name, phone_number } =
       userInfo;
     const user = await db.sql(`
+USE DATABASE database.sqlite; 
 INSERT INTO users (email, password_hash, first_name, last_name, phone_number)
 VALUES ('${email}', '${password_hash}', '${first_name}', '${last_name}', '${phone_number}');
 `);
