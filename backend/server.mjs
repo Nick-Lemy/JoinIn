@@ -31,6 +31,16 @@ app.get("/login", (req, res) => {
   return res.sendFile(path.join(__dirname + "login.html"));
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Error logging out');
+    }
+    res.clearCookie('connect.sid');
+    return res.redirect('/');
+  });
+});
+
 app.use(authVerification);
 
 app.get("/", (req, res) => {
