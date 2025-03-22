@@ -71,9 +71,9 @@
           }).then(response => {
             console.log(response)
             if (response.ok) {
-              window.open('/')
+              window.location.reload()
             } else {
-              alert('credential error')
+              alert('Registration error')
             }
           })
           .catch(error => {
