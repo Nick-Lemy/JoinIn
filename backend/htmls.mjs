@@ -112,7 +112,7 @@ export const returnEvent = (
           </div>
           
           <!-- Join Button -->
-          <a href="#" class="w-full bg-[#0F2449] text-white py-3 font-medium rounded-lg hover:bg-[#193865] transition-colors flex items-center justify-center">
+          <a id='register-btn' href="#" class="w-full bg-[#0F2449] text-white py-3 font-medium rounded-lg hover:bg-[#193865] transition-colors flex items-center justify-center">
             <i class="fas fa-ticket-alt mr-2"></i> Register
           </a>
         </div>
@@ -136,6 +136,10 @@ export const returnEvent = (
     menu.classList.toggle("hidden");
     menu.classList.toggle("flex");
   });
+  const registerButton = document.getElementById('register-btn')
+  registerButton.addEventListener('click', ()=>{
+    
+    })
     </script>
   </body>
   </html>
