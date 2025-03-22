@@ -50,9 +50,5 @@ export const passwordHasher = async (password) => {
 export const verify = async (password, storedPassword) => {
   const passwordMatched = await bcrypt.compare(password, storedPassword);
 
-  if (passwordMatched) {
-    console.log("OK: Verification is successful.");
-  } else {
-    console.error("ERR: Verification failed.");
-  }
+  return passwordMatched
 };
