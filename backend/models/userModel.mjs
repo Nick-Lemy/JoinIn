@@ -28,7 +28,6 @@ export const userLogin = async ({ email, password }) => {
     const findUser = allUsers.find(
        (user) => user["email"] === email
     );
-    console.log(findUser)
     const passwordVerification = await verify(password, findUser.password_hash)
     if(passwordVerification && findUser) {
       return true
