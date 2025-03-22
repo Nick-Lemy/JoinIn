@@ -22,11 +22,12 @@ app.use("/api/events/", eventRoutes);
 app.use(express.static(__dirname + "assets/"));
 app.set("views", __dirname);
 
-app.get("/register", (req, res) => {Auth
+app.get("/register", (req, res) => {
   if(req.session.isAuthenticated) return res.redirect('/')
   return res.sendFile(path.join(__dirname + "register.html"));
 });
 app.get("/login", (req, res) => {
+  if(req.session.isAuthenticated) return res.redirect('/')
   return res.sendFile(path.join(__dirname + "login.html"));
 });
 
