@@ -38,7 +38,7 @@ export const sessionHandler = session({
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
-  cookie: true,
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 15},
 });
 
 export const passwordHasher = async (password) => {
