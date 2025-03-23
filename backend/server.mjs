@@ -27,6 +27,7 @@ app.get("/register", (req, res) => {
   return res.sendFile(path.join(__dirname + "register.html"));
 });
 app.get("/login", (req, res) => {
+  
   if(req.session.isAuthenticated) return res.redirect('/')
   return res.sendFile(path.join(__dirname + "login.html"));
 });
@@ -60,7 +61,7 @@ app.get("/events/:id", async (req, res) => {
   const { title, location, image_link, date, max_attendees, description } =
     event;
   return res.send(
-    returnEvent(title, image_link, 'undefined', date, location, max_attendees, description)
+    returnEvent(id, title, image_link, 'undefined', date, location, max_attendees, description)
   );
 });
 

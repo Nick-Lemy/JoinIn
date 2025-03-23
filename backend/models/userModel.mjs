@@ -30,7 +30,7 @@ export const userLogin = async ({ email, password }) => {
     );
     const passwordVerification = await verify(password, findUser.password_hash)
     if(passwordVerification && findUser) {
-      return true
+      return findUser
     } else {
       return false
     }

@@ -1,4 +1,5 @@
 export const returnEvent = (
+  event_id,
   title,
   image_link,
   organizer,
@@ -112,7 +113,7 @@ export const returnEvent = (
           </div>
           
           <!-- Join Button -->
-          <a id='register-btn' href="#" class="w-full bg-[#0F2449] text-white py-3 font-medium rounded-lg hover:bg-[#193865] transition-colors flex items-center justify-center">
+          <a id='register-btn' class="w-full bg-[#0F2449] text-white py-3 font-medium rounded-lg hover:bg-[#193865] transition-colors flex items-center justify-center">
             <i class="fas fa-ticket-alt mr-2"></i> Register
           </a>
         </div>
@@ -128,7 +129,7 @@ export const returnEvent = (
         </div>
       </div>
     </div>
-  
+    <script src="/script2.js"></script>
     <script>
       // Mobile menu toggle
   document.getElementById("menu-toggle").addEventListener("click", function () {
@@ -137,8 +138,28 @@ export const returnEvent = (
     menu.classList.toggle("flex");
   });
   const registerButton = document.getElementById('register-btn')
-  registerButton.addEventListener('click', ()=>{
-
+  registerButton.addEventListener('click', () => {
+              fetch('http://joinin.nick-lemy.tech/api/events/registration/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json' // sending JSON data
+              },
+              body: JSON.stringify({
+              event_id: ${event_id},
+              volunteer_role_id: 1,
+              qr_code: '${event_id}random'
+              })
+            }).then(response =>{
+              if(response.status === 201){
+                window.open('/', '_blank')
+              } else {
+               console.log(response)
+               alert('something bad happened!')}
+              }
+            )
+            .catch(error => {
+              console.error('Error while registering:', error);
+            });
     })
     </script>
   </body>
