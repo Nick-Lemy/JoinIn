@@ -4,8 +4,8 @@ import { authVerification } from "../middlewares/authMiddleware.mjs";
 
 const router = express.Router();
 
-router.use(authVerification)
 router.get("/", showAllEventsController);
+router.use(authVerification)
 router.post("/registration", eventRegistrationController)
 
 export default router;

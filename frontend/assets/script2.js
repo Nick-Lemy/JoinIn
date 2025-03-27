@@ -1,7 +1,7 @@
 console.log('script2 init')
 // const registerButton = document.getElementById('register-btn')
 //   registerButton.addEventListener('click', () => {
-//               fetch('http://joinin.nick-lemy.tech/api/events/registration/', {
+//               fetch('http://localhost:3000/api/events/registration/', {
 //               method: 'POST',
 //               headers: {
 //                 'Content-Type': 'application/json' // sending JSON data

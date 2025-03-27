@@ -23,22 +23,21 @@ app.use(express.static(__dirname + "assets/"));
 app.set("views", __dirname);
 
 app.get("/register", (req, res) => {
-  if(req.session.isAuthenticated) return res.redirect('/')
+  if (req.session.isAuthenticated) return res.redirect("/");
   return res.sendFile(path.join(__dirname + "register.html"));
 });
 app.get("/login", (req, res) => {
-  
-  if(req.session.isAuthenticated) return res.redirect('/')
+  if (req.session.isAuthenticated) return res.redirect("/");
   return res.sendFile(path.join(__dirname + "login.html"));
 });
 
-app.get('/logout', (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).send('Error logging out');
+      return res.status(500).send("Error logging out");
     }
-    res.clearCookie('connect.sid');
-    return res.redirect('/');
+    res.clearCookie("connect.sid");
+    return res.redirect("/");
   });
 });
 
@@ -51,17 +50,24 @@ app.get("/events", (req, res) => {
   return res.sendFile(path.join(__dirname + "events.html"));
 });
 
-
-
 app.get("/events/:id", async (req, res) => {
   const { id } = req.params;
   const allEvents = await showAllEvents();
 
-  const event = allEvents.find(event=>event.id === Number(id))
+  const event = allEvents.find((event) => event.id === Number(id));
   const { title, location, image_link, date, max_attendees, description } =
     event;
   return res.send(
-    returnEvent(id, title, image_link, 'undefined', date, location, max_attendees, description)
+    returnEvent(
+      id,
+      title,
+      image_link,
+      "undefined",
+      date,
+      location,
+      max_attendees,
+      description,
+    ),
   );
 });
 
