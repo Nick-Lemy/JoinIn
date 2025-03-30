@@ -24,7 +24,7 @@ app.use(express.static(__dirname + "assets/"));
 app.set("views", __dirname);
 
 app.get("/register", (req, res) => {
-  if (req.session.isAuthenticated) return res.redirect("/");
+  if (req.session.isRegistered === true) return res.redirect("/login");
   return res.sendFile(path.join(__dirname + "register.html"));
 });
 app.get("/login", (req, res) => {
@@ -51,9 +51,9 @@ app.get("/events", (req, res) => {
   return res.sendFile(path.join(__dirname + "events.html"));
 });
 
-app.get("/registrations", (req, res)=>{
-  return 
-})
+// app.get("/registrations", (req, res)=>{
+//   return 
+// })
 
 app.patch("/registration/:qr", adminAuthVerification, async (req, res) => {
   const { qr } = req.params;

@@ -3,9 +3,7 @@ import { userRegister, userLogin } from "../models/userModel.mjs";
 export const userRegisterController = async (req, res) => {
   try {
     const newUser = await userRegister(req.body);
-    req.session.isAuthenticated = true;
-    req.session.user = newUser;
-    console.log(req.session.user, newUser)
+    req.session.isRegistered = true;
     return res.status(201).send(newUser);
   } catch (error) {
     return res
