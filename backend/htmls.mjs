@@ -154,7 +154,7 @@ export const returnEvent = (
             <p class="text-gray-700"><span class="font-semibold">Location:</span> ${location}</p>
           </div>
           <div class="flex flex-col items-center">
-            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://joinin.nick-lemy.tech/registration/JoinIn-${event_id}-${
+            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/JoinIn-${event_id}-${
     314 * Number(user.id)
   }" 
                  alt="Event QR Code" class="border border-gray-200 p-2 mb-4">
@@ -187,7 +187,7 @@ export const returnEvent = (
 
   const registerButton = document.getElementById('register-btn');
   registerButton.addEventListener('click', () => {
-    fetch('http://joinin.nick-lemy.tech/api/events/registration/', {
+    fetch('https://joinin.nick-lemy.tech/api/events/registration/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -449,7 +449,7 @@ export const registration_html = (
             timestamp: new Date().toISOString()
           };
 
-          const response = await fetch('http://joinin.nick-lemy.tech/registration/${qr}', {
+          const response = await fetch('https://joinin.nick-lemy.tech/registration/${qr}', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'

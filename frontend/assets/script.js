@@ -53,7 +53,7 @@ eventCards.forEach((card, index) => {
 
 const eventsContainer = document.getElementById("events");
 const fetchAll = async () => {
-  await fetch("http://joinin.nick-lemy.tech/api/events")
+  await fetch("https://joinin.nick-lemy.tech/api/events")
     .then((res) => {
       return res.json();
     })
