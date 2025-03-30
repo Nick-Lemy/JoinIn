@@ -6,7 +6,8 @@ export const returnEvent = (
   date,
   location,
   participants,
-  description
+  description,
+  user
 ) => {
   return `
   <!DOCTYPE html>
@@ -130,39 +131,373 @@ export const returnEvent = (
       </div>
     </div>
     <script src="/script2.js"></script>
-    <script>
-      // Mobile menu toggle
+<script>
+  // Mobile menu toggle
   document.getElementById("menu-toggle").addEventListener("click", function () {
     const menu = document.getElementById("menu");
     menu.classList.toggle("hidden");
     menu.classList.toggle("flex");
   });
-  const registerButton = document.getElementById('register-btn')
+
+  // Registration popup elements
+  const popupHTML = \`
+    <div id="registrationPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="bg-[#0F2449] text-white p-4 rounded-t-lg flex justify-between items-center">
+          <h3 class="text-xl font-bold">Registration Successful!</h3>
+          <button id="closePopup" class="text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+          <div class="mb-4">
+            <p class="text-gray-700"><span class="font-semibold">Event:</span> ${title}</p>
+            <p class="text-gray-700"><span class="font-semibold">Date:</span> ${date}</p>
+            <p class="text-gray-700"><span class="font-semibold">Location:</span> ${location}</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://joinin.nick-lemy.tech/registration/JoinIn-${event_id}-${314 * Number(user.id)}" 
+                 alt="Event QR Code" class="border border-gray-200 p-2 mb-4">
+            <p class="text-gray-600 text-sm">This QR code will be scan at the event entrance</p>
+          </div>
+
+          <div class="mb-4">
+            <p class="text-gray-700"><span class="font-semibold">Name:</span> ${user.first_name + ' ' + user.last_name}</p>
+            <p class="text-gray-700"><span class="font-semibold">Email:</span> ${user.email}</p>
+            <p class="text-gray-700"><span class="font-semibold">Number:</span> ${user.phone_number}</p>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-6 py-3 rounded-b-lg flex justify-end">
+          <button id="downloadQR" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+            Download QR Code
+          </button>
+        </div>
+      </div>
+    </div>
+  \`;
+
+  // Add popup to body
+  document.body.insertAdjacentHTML('beforeend', popupHTML);
+
+  const registerButton = document.getElementById('register-btn');
   registerButton.addEventListener('click', () => {
-              fetch('http://localhost:3000/api/events/registration/', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json' // sending JSON data
-              },
-              body: JSON.stringify({
-              event_id: ${event_id},
-              volunteer_role_id: 1,
-              qr_code: '${event_id}random'
-              })
-            }).then(response =>{
-              if(response.status === 201){
-                window.open('/', '_blank')
-              } else {
-               console.log(response)
-               alert('something bad happened!')}
-              }
-            )
-            .catch(error => {
-              console.error('Error while registering:', error);
-            });
-    })
-    </script>
+    fetch('http://joinin.nick-lemy.tech/api/events/registration/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        event_id: ${event_id},
+        volunteer_role_id: 1,
+        qr_code: 'JoinIn-${event_id}-${314 * Number(user.id)}'
+      })
+    }).then(response => {
+        // Show popup on successful registration
+        const popup = document.getElementById('registrationPopup');
+        popup.classList.remove('hidden');
+    }).catch(error => {
+      console.error('Error while registering:', error);
+    });
+  });
+
+  // Close popup functionality
+  document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('registrationPopup').classList.add('hidden');
+  });
+
+  // Close when clicking outside
+  document.getElementById('registrationPopup').addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.add('hidden');
+    }
+  });
+
+  // Download QR code functionality
+  document.getElementById('downloadQR').addEventListener('click', function() {
+    const qrImage = document.getElementById('qrCodeImage');
+    const link = document.createElement('a');
+    link.href = qrImage.src;
+    link.download = 'event-qr-code.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+</script>
   </body>
   </html>
     `;
 };
+// export const qr_code_html = () =>{ 
+//   return `
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Event QR Code</title>
+//     <script src="https://cdn.tailwindcss.com"></script>
+// </head>
+// <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+//     <div class="max-w-sm w-full bg-white rounded-lg shadow p-6 text-center">
+//         <div class="mb-6">
+//             <img class="w-48 h-48 mx-auto" src="Artboard-2-1.png" alt="QR Code">
+//         </div>
+//         <div class="mb-6">
+//             <h1 class="text-xl font-bold text-gray-800">[Event Title]</h1>
+//             <p class="text-gray-600 mt-2">Location: <span class="font-medium text-gray-800">[Event Location]</span></p>
+//             <p class="text-gray-600 mt-1">Time: <span class="font-medium text-gray-800">[Event Time]</span></p>
+//         </div>
+//         <div>
+//             <button class="bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600">      Add to Calendar
+//             </button>
+//         </div>
+//     </div>
+// </body>
+// </html>
+// `
+// }
+
+export const registration_html = (
+  event_name,
+  registration_date,
+  attendee_name,
+  attendee_email,
+  checked_in,
+)=> {
+  return `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendee Check-In - JoinIn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky z-40 -top-0.5">
+    <nav class="bg-[#0F2449] border-blue-950 py-4 border-b-1">
+      <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
+        <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
+        <!-- Mobile menu button -->
+        <button id="menu-toggle" class="sm:hidden block text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <!-- Menu -->
+        <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
+          <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
+          <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
+          <li><a href="/admin" class="block py-2 sm:py-0">Admin</a></li>
+          <li><a href="/scanner" class="block py-2 sm:py-0">Scanner</a></li>
+        </ul>
+        <div class="profile-icon hidden sm:block">
+          <img class="w-10" src="/codicon_account.png" alt="Admin Profile" />
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Admin Check-In Container -->
+  <div class="max-w-7xl mx-auto py-8 items-center px-7 sm:px-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center">
+        <li class="inline-flex items-center">
+          <a href="/admin" class="text-sm text-gray-600 hover:text-[#0F2449]">Admin</a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <a href="/admin/events" class="ml-1 text-sm text-gray-600 hover:text-[#0F2449]">Event Management</a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="ml-1 text-sm text-gray-500 font-medium">Check-In</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  
+    <!-- Check-In Card -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+      <!-- Header Section -->
+      <div class="bg-[#0F2449] px-6 py-4">
+        <h1 class="text-xl font-bold text-white flex items-center">
+          <i class="fas fa-user-check mr-2"></i> Attendee Check-In
+        </h1>
+      </div>
+      
+      <div class="px-6 py-6">
+        <!-- Attendee Information -->
+        <div class="mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Event Information -->
+            <div>
+              <h2 class="text-lg font-semibold text-[#0F2449] mb-4">Event Information</h2>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-gray-500 text-sm mb-1">Event Name</p>
+                <p class="font-medium text-gray-800 mb-3" id="eventName">${event_name}</p>
+                
+                <p class="text-gray-500 text-sm mb-1">Registration Date</p>
+                <p class="font-medium text-gray-800" id="registeredAt">${registration_date}</p>
+              </div>
+            </div>
+            
+            <!-- Attendee Information -->
+            <div>
+              <h2 class="text-lg font-semibold text-[#0F2449] mb-4">Attendee Information</h2>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-gray-500 text-sm mb-1">Name</p>
+                <p class="font-medium text-gray-800 mb-3" id="userName">${attendee_name}</p>
+                
+                <p class="text-gray-500 text-sm mb-1">Email</p>
+                <p class="font-medium text-gray-800" id="userEmail">${attendee_email}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Status Card -->
+        <div id="statusCard" class="border border-gray-200 rounded-lg p-4 mb-6 flex items-center">
+          <div id="statusIcon" class="mr-4 text-2xl">
+            <i class="fas fa-clock text-yellow-500"></i>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-800" id="statusTitle">Not Checked In</h3>
+            <p class="text-gray-500 text-sm" id="statusMessage">This attendee has not been checked in yet</p>
+          </div>
+        </div>
+        
+        <!-- Action Button -->
+        <div class="flex justify-center">
+          <button id="checkInButton" class="bg-[#0F2449] text-white px-8 py-4 rounded-lg hover:bg-[#193865] transition-colors flex items-center justify-center text-lg font-medium">
+            <i class="fas fa-check-circle mr-2"></i> Check In Attendee
+          </button>
+          
+          <button id="alreadyCheckedInButton" class="hidden bg-gray-400 text-white px-8 py-4 rounded-lg flex items-center justify-center text-lg font-medium cursor-not-allowed">
+            <i class="fas fa-check-circle mr-2"></i> Already Checked In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div class="bg-green-500 text-white p-4 rounded-t-lg flex justify-between items-center">
+        <h3 class="text-xl font-bold">Check-In Successful!</h3>
+        <button id="closeModal" class="text-white text-2xl">&times;</button>
+      </div>
+      <div class="p-6 text-center">
+        <div class="mb-4 text-5xl text-green-500">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2"">${attendee_name}</h2>
+        <p class="text-gray-600 mb-6">has been successfully checked in</p>
+        
+        <div class="flex justify-center">
+          <button id="doneButton" class="bg-[#0F2449] text-white px-6 py-3 rounded-lg hover:bg-[#193865] transition-colors">
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById("menu-toggle").addEventListener("click", function () {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("hidden");
+      menu.classList.toggle("flex");
+    });
+    
+    // Function to set attendee details from URL parameters
+    function setAttendeeDetails() {
+      // Get URL parameters (or use defaults for demonstration)
+      const urlParams = new URLSearchParams(window.location.search);
+      const isCheckedIn = urlParams.get('checked_in') === '${checked_in}';
+      
+      // Set check-in status
+      if (isCheckedIn) {
+        setCheckedInState();
+      }
+    }
+    
+    // Function to update UI for already checked in state
+    function setCheckedInState() {
+      const statusCard = document.getElementById('statusCard');
+      const statusIcon = document.getElementById('statusIcon');
+      const statusTitle = document.getElementById('statusTitle');
+      const statusMessage = document.getElementById('statusMessage');
+      const checkInButton = document.getElementById('checkInButton');
+      const alreadyCheckedInButton = document.getElementById('alreadyCheckedInButton');
+      
+      statusCard.classList.remove('border-gray-200');
+      statusCard.classList.add('border-green-500', 'bg-green-50');
+      
+      statusIcon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+      statusTitle.textContent = 'Checked In';
+      statusMessage.textContent = 'This attendee has been successfully checked in';
+      
+      checkInButton.classList.add('hidden');
+      alreadyCheckedInButton.classList.remove('hidden');
+    }
+    
+    // Check-in button functionality
+    document.getElementById('checkInButton').addEventListener('click', function() {
+      // Here you would typically make an API call to check in the user
+      // For this example, we'll just show the confirmation modal
+      
+      const attendeeData = {
+        name: document.getElementById('userName').textContent,
+        email: document.getElementById('userEmail').textContent,
+        event: document.getElementById('eventName').textContent,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Simulate API call
+      setTimeout(() => {
+        console.log('Check-in data:', attendeeData);
+        
+        // Show confirmation modal
+        document.getElementById('confirmationModal').classList.remove('hidden');
+        
+        // Update UI to checked-in state
+        setCheckedInState();
+      }, 500);
+    });
+    
+    // Close modal buttons
+    document.getElementById('closeModal').addEventListener('click', function() {
+      document.getElementById('confirmationModal').classList.add('hidden');
+    });
+    
+    document.getElementById('doneButton').addEventListener('click', function() {
+      document.getElementById('confirmationModal').classList.add('hidden');
+    });
+    
+    // Close when clicking outside the modal
+    document.getElementById('confirmationModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.add('hidden');
+      }
+    });
+    
+    // Set attendee details when page loads
+    window.addEventListener('DOMContentLoaded', setAttendeeDetails);
+  </script>
+</body>
+</html>
+  `
+}
+
+// March 28, 2025 at 14:30

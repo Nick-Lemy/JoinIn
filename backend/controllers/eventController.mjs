@@ -25,10 +25,10 @@ export const eventRegistrationController = async (req, res) =>{
   try {
     const registration = await eventRegistration(req.session.user['id'], req.body)
     console.log(registration)
-    return res.status(201).send(registration)
+    return res.status(200).send(registration)
   } catch (error) {
     return res
-      .status(500)
+      .status(404)
       .send({ message: "Failed to register", error: error.message }); 
   }
 }

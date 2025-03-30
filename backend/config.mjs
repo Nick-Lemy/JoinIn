@@ -21,9 +21,41 @@ export const {
 
 export const __dirname =
   dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
-export const db = new Database(SQL_DRIVE);
+  let db;
+
+  async function connectToDatabase() {
+    try {
+      db = new Database(SQL_DRIVE);
+      console.log('✅ Connected to SQLite Cloud');
+      
+      // Keep the connection alive
+      setInterval(async () => {
+        try {
+          await db.sql('SELECT 1');  // Prevents idle disconnection
+          console.log('🔄 Pinged SQLite Cloud to keep connection alive');
+        } catch (err) {
+          console.error('⚠️ SQLite Cloud Ping Failed:', err);
+        }
+      }, 60000); // Every 1 minute
+  
+      return db;
+    } catch (err) {
+      console.error('❌ Database connection failed. Retrying in 5 seconds...', err);
+      setTimeout(connectToDatabase, 2000);
+    }
+  }
+  
+  // Start the connection
+  connectToDatabase();
+  
+  export { db };
 
 export const redisClient = createClient({
+  socket: {
+    reconnectStrategy: (retries) => Math.min(retries * 50, 1000), // Exponential backoff
+    keepAlive: true,
+    connectTimeout: 5000, // Wait 5 seconds before failing connection
+  },
   username: REDIS_USERNAME,
   password: REDIS_PASSWORD,
   socket: {
