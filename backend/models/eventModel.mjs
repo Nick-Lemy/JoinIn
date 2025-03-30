@@ -18,7 +18,7 @@ export const eventRegistration = async (user_id, { event_id, volunteer_role_id, 
       const registration = await db.sql(`
   USE DATABASE database.sqlite; 
   INSERT INTO registrations (user_id, event_id,  qr_code, registered_at, checked_in)
-  VALUES (${Number(user_id)}, ${Number(event_id)}, '${qr_code}', '${Date.now()}', '${1}');
+  VALUES (${Number(user_id)}, ${Number(event_id)}, '${qr_code}', '${Date.now()}', '${'false'}');
   `);
       return registration;
     } catch (error) {

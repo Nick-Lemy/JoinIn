@@ -41,7 +41,7 @@ export const __dirname =
       return db;
     } catch (err) {
       console.error('❌ Database connection failed. Retrying in 5 seconds...', err);
-      setTimeout(connectToDatabase, 2000);
+      connectToDatabase()
     }
   }
   
@@ -52,9 +52,7 @@ export const __dirname =
 
 export const redisClient = createClient({
   socket: {
-    reconnectStrategy: (retries) => Math.min(retries * 50, 1000), // Exponential backoff
     keepAlive: true,
-    connectTimeout: 5000, // Wait 5 seconds before failing connection
   },
   username: REDIS_USERNAME,
   password: REDIS_PASSWORD,
@@ -63,7 +61,13 @@ export const redisClient = createClient({
     port: REDIS_PORT,
   },
 });
-redisClient.connect().catch(console.error);
+try {
+  redisClient.connect();
+} catch (error) {
+  console.error(error)
+  redisClient.connect()
+
+}
 
 export const sessionHandler = session({
   store: new RedisStore({ client: redisClient }),

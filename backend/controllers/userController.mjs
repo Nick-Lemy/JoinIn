@@ -5,7 +5,7 @@ export const userRegisterController = async (req, res) => {
     const newUser = await userRegister(req.body);
     req.session.isAuthenticated = true;
     req.session.user = newUser;
-    console.log(req.session.user)
+    console.log(req.session.user, newUser)
     return res.status(201).send(newUser);
   } catch (error) {
     return res

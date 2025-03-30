@@ -51,22 +51,29 @@ app.get("/events", (req, res) => {
   return res.sendFile(path.join(__dirname + "events.html"));
 });
 
-app.get("/registration")
+app.get("/registrations", (req, res)=>{
+  return 
+})
 
-app.post("/registration/:qr", adminAuthVerification, async (req, res) => {
+app.patch("/registration/:qr", adminAuthVerification, async (req, res) => {
   const { qr } = req.params;
-
+  console.log(qr)
   try {
-    const [registration] = await db.sql(
-      "SELECT * FROM registrations WHERE qr_code = ?", 
-      [qr]
+    const registration = await db.sql(`
+      USE DATABASE database.sqlite; 
+      SELECT * FROM registrations WHERE qr_code = '${qr}';
+      `
     );
+    console.log(registration)
 
     if (!registration) {
       return res.status(404).json({ message: "Registration not found" });
     }
 
-    await db.sql("UPDATE registrations SET check_in = 'false' WHERE qr_code = ?", [qr]);
+    await db.sql(`
+      USE DATABASE database.sqlite; 
+      UPDATE registrations SET checked_in = 'true' WHERE qr_code = '${qr}';
+      `);
 
     res.json({ message: "Check-in successful", registration });
   } catch (error) {
@@ -99,6 +106,7 @@ app.get("/registration/:qr", adminAuthVerification, async (req, res) => {
     `${findUser.first_name} ${findUser.last_name}`,
     findUser.email,
     findRegistration.checked_in,
+    qr,
   ))
   } else if(findRegistration.checked_in === 'true') {
     return res.send(`Already Registered!`)
@@ -114,6 +122,7 @@ app.get("/events/:id", async (req, res) => {
   const event = allEvents.find((event) => event.id === Number(id));
   const { title, location, image_link, date, max_attendees, description } =
     event;
+    console.log(req.session.user)
   const user = req.session.user;
   return res.send(
     returnEvent(
@@ -125,7 +134,7 @@ app.get("/events/:id", async (req, res) => {
       location,
       max_attendees,
       description,
-      user
+      user,
     )
   );
 });
