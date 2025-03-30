@@ -19,36 +19,8 @@ export const {
   SESSION_DURATION,
 } = process.env;
 
-export const __dirname =
-  dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
-  let db;
-
-  async function connectToDatabase() {
-    try {
-      db = new Database(SQL_DRIVE);
-      console.log('✅ Connected to SQLite Cloud');
-      
-      // Keep the connection alive
-      setInterval(async () => {
-        try {
-          await db.sql('SELECT 1');  // Prevents idle disconnection
-          console.log('🔄 Pinged SQLite Cloud to keep connection alive');
-        } catch (err) {
-          console.error('⚠️ SQLite Cloud Ping Failed:', err);
-        }
-      }, 60000); // Every 1 minute
-  
-      return db;
-    } catch (err) {
-      console.error('❌ Database connection failed. Retrying in 5 seconds...', err);
-      connectToDatabase()
-    }
-  }
-  
-  // Start the connection
-  connectToDatabase();
-  
-  export { db };
+export const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
+export const db = new Database(SQL_DRIVE);
 
 export const redisClient = createClient({
   socket: {
@@ -64,9 +36,8 @@ export const redisClient = createClient({
 try {
   redisClient.connect();
 } catch (error) {
-  console.error(error)
-  redisClient.connect()
-
+  console.error(error);
+  redisClient.connect();
 }
 
 export const sessionHandler = session({
@@ -74,7 +45,7 @@ export const sessionHandler = session({
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 15},
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 15 },
 });
 
 export const passwordHasher = async (password) => {
@@ -86,5 +57,5 @@ export const passwordHasher = async (password) => {
 export const verify = async (password, storedPassword) => {
   const passwordMatched = await bcrypt.compare(password, storedPassword);
 
-  return passwordMatched
+  return passwordMatched;
 };
