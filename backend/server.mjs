@@ -154,7 +154,7 @@ app.get("/registrations/all/", async (req, res) => {
       USE DATABASE database.sqlite; 
       SELECT * FROM registrations WHERE user_id = ${req.session.user.id};`);
 
-    const ok = [];
+    const data = [];
     // Use Promise.all to wait for all async operations to complete
     await Promise.all(
       Array.from(eventsRegistred).map(async (registration) => {
@@ -162,15 +162,15 @@ app.get("/registrations/all/", async (req, res) => {
         USE DATABASE database.sqlite; 
         SELECT * FROM events WHERE id = '${registration.event_id}';`);
         const { date, qr_code, registered_at } = registration;
-        ok.push({ 
+        data.push({ 
           event_name: event.title,
           registered_at,
           qr_code
          });
       })
     );
-    // ok = ok.sort((a, b)=>a.registered_at - b.registered_at)
-    return res.send(ok);
+    // data = data.sort((a, b)=>a.registered_at - b.registered_at)
+    return res.send([data, {username: req.session.user.first_name + ' ' + req.session.user.last_name}]);
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred");

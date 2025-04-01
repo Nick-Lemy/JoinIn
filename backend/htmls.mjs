@@ -154,33 +154,19 @@ export const returnEvent = (
           <button id="closePopup" class="text-white text-2xl">&times;</button>
         </div>
         <div class="p-6">
-          <div class="mb-4">
-            <p class="text-gray-800"><span class="font-bold text-xl">${title}</span> </p>
-            <p class="text-gray-700"><span class="font-semibold">Date:</span> ${date}</p>
-            <p class="text-gray-700"><span class="font-semibold">Location:</span> ${location}</p>
-          </div>
+
+            <p class="text-center text-gray-800"><span class="font-bold text-xl">${title}</span> </p>
           <div class="flex flex-col items-center">
             <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/JoinIn-${event_id}-${314 * Number(user.id)}" 
                  alt="Event QR Code" class="border border-gray-200 p-2 mb-4">
             <p class="text-gray-600 text-sm">This QR code will be scan at the event entrance</p>
           </div>
 
-          <div class="mb-4">
-            <p class="text-gray-700"><span class="font-semibold">Name:</span> ${
-              user.first_name + " " + user.last_name
-            }</p>
-            <p class="text-gray-700"><span class="font-semibold">Email:</span> ${
-              user.email
-            }</p>
-            <p class="text-gray-700"><span class="font-semibold">Number:</span> ${
-              user.phone_number
-            }</p>
-          </div>
         </div>
-        <div class="bg-gray-50 px-6 py-3 rounded-b-lg flex justify-end">
-          <button id="downloadQR" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
-            Download QR Code
-          </button>
+        <div class="bg-gray-50 px-6 py-3 rounded-b-lg flex justify-center">
+          <a href="/account" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+           View in History
+          </a>
         </div>
       </div>
     </div>
