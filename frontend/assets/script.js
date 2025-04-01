@@ -1,24 +1,3 @@
-const events = [
-  {
-    title: "CodeXtreme Hackathon",
-    location: "Kigali, African Leadership University",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-  {
-    title: "CodeXtreme Hackathon",
-    location: "Kigali, African Leadership University",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-  {
-    title: "CodeXtreme Hackathon",
-    location: "Kigali, African Leadership University",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-];
-
 document.getElementById("menu-toggle").addEventListener("click", function () {
   const menu = document.getElementById("menu");
   menu.classList.toggle("hidden");

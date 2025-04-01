@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Acount | JoinIn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+  <header class="sticky z-40 -top-0.5">
+    <nav class="bg-[#0F2449] border-blue-950 py-4 shadow-[0_20px_50px_rgba(10,_10,_10,_0.4)] border-b-1">
+      <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
+        <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
+        <button id="menu-toggle" class="sm:hidden block text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
+          <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
+          <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
+          <li><a href="#contact-us" class="block py-2 sm:py-0">Contact Us</a></li>
+          <li><a href="#about-us" class="block py-2 sm:py-0">About Us</a></li>
+        </ul>
+        <a href="/account" class="profile-icon hidden sm:block">
+          <img class="w-10" src="/codicon_account.png" alt="Profile" />
+        </a>
+      </div>
+    </nav>
+  </header>
+  <main class="max-w-7xl mx-auto py-7 items-center px-9 sm:px-0">
+    <div>
+      <div class="flex flex-col gap-5">
+        <h1 class="text-3xl font-semibold">Hello, Nick-Lemy Kayiranga!</h1>
+        <div class="bg-white rounded-md shadow-lg overflow-hidden p-5">
+          <h3 class="text-lg font-semibold">Events registered</h3>
+          <div id="registrations" class="flex flex-col gap-3">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const eventsContainer = document.getElementById("registrations");
+    const fetchAll = async () => {
+      await fetch("https://joinin.nick-lemy.tech/registrations/all/")
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          let content = "";
+          for (const elem of data) {
+            const {
+              event_name,
+              registered_at,
+              qr_code
+            } = elem;
+            content += `
+<div class="bg-white border rounded-md shadow-md overflow-hidden transition-transform hover:scale-[1.005]">
+  <div class="flex flex-col justify-between p-4 gap-2">
+    <h3 class="text-xl font-bold mb-2">${event_name}</h3>
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center mb-2 text-sm">
+            <span>${formatReadableDate(registered_at)}</span>
+        </div>
+    </div>
+  </div>
+</div>`;
+          }
+          eventsContainer.innerHTML = content;
+        });
+    };
+    fetchAll();
+    function formatReadableDate(timestamp) {
+  const date = new Date(timestamp);
+
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false, // 24-hour format
+  };
+
+  return date.toLocaleString("en-US", options);
+}
+  </script>
+</body>
+
+</html>
