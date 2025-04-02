@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Feedback | JoinIn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-poppins">
+  <div class="min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Event Feedback</h1>
+        <p class="text-gray-600">Share your experience with us</p>
+      </div>
+      
+      <form id="feedbackForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+          <div class="flex justify-center space-x-2" id="ratingStars">
+            <!-- Stars will be added by JavaScript -->
+          </div>
+          <input type="hidden" id="ratingValue" name="rating" required>
+        </div>
+        
+        <div>
+          <label for="comments" class="block text-sm font-medium text-gray-700 mb-1">Comments</label>
+          <textarea id="comments" name="comments" rows="4" 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   placeholder="Tell us about your experience..."></textarea>
+        </div>
+        
+        <div class="pt-2">
+          <button type="submit" 
+                  class="w-full bg-[#0F2449] text-white py-2 px-4 rounded-md hover:bg-[#193865] transition-colors">
+            Submit Feedback
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const qrCode = new URLSearchParams(window.location.search).get('qr');
+      if (!qrCode) {
+        alert('No event QR code found in URL');
+        return;
+      }
+
+      // Create rating stars
+      const ratingContainer = document.getElementById('ratingStars');
+      const ratingInput = document.getElementById('ratingValue');
+      let selectedRating = 0;
+
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.className = 'text-3xl cursor-pointer text-gray-300';
+        star.innerHTML = '★';
+        star.dataset.value = i;
+        
+        star.addEventListener('click', function() {
+          selectedRating = parseInt(this.dataset.value);
+          ratingInput.value = selectedRating;
+          
+          // Update star colors
+          const stars = ratingContainer.querySelectorAll('span');
+          stars.forEach((s, index) => {
+            s.className = `text-3xl cursor-pointer ${index < selectedRating ? 'text-yellow-400' : 'text-gray-300'}`;
+          });
+        });
+        
+        star.addEventListener('mouseover', function() {
+          const hoverRating = parseInt(this.dataset.value);
+          const stars = ratingContainer.querySelectorAll('span');
+          stars.forEach((s, index) => {
+            s.className = `text-3xl cursor-pointer ${index < hoverRating ? 'text-yellow-300' : 'text-gray-300'}`;
+          });
+        });
+        
+        star.addEventListener('mouseout', function() {
+          const stars = ratingContainer.querySelectorAll('span');
+          stars.forEach((s, index) => {
+            s.className = `text-3xl cursor-pointer ${index < selectedRating ? 'text-yellow-400' : 'text-gray-300'}`;
+          });
+        });
+        
+        ratingContainer.appendChild(star);
+      }
+
+      // Handle form submission
+      const feedbackForm = document.getElementById('feedbackForm');
+      feedbackForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const rating = ratingInput.value;
+        const comments = document.getElementById('comments').value;
+        
+        if (!rating) {
+          alert('Please select a rating');
+          return;
+        }
+
+        try {
+          const response = await fetch(`/feedback/${qrCode}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              rating: rating,
+              comment: comments
+            })
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            alert('Thank you for your feedback!');
+            window.location.href = '/'; // Redirect to home after submission
+          } else {
+            throw new Error('Failed to submit feedback');
+          }
+        } catch (error) {
+          console.error('Error submitting feedback:', error);
+          alert('There was an error submitting your feedback. Please try again.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

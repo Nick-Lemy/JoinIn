@@ -94,6 +94,22 @@ app.get("/registrations", async (req, res) => {
   }
 });
 
+app.post("/feedback/:qr", async (req, res) => {
+  const { rating, comment } = req.body
+  const { qr } = req.params;
+  const [registration] = await db.sql(`
+    USE DATABASE database.sqlite; 
+    SELECT * FROM registrations WHERE qr_code = '${qr}';
+    `);
+  const { id } = registration;
+  const feedback = await db.sql(`
+    USE DATABASE database.sqlite; 
+    INSERT INTO feedback (registration_id, rating, comment, submitted_at)
+    VALUES ('${id}', '${rating}', '${comment}', '${date}');
+  `);
+  return res.send(feedback)
+});
+
 app.patch("/registration/:qr", adminAuthVerification, async (req, res) => {
   const { qr } = req.params;
   // console.log(qr);
