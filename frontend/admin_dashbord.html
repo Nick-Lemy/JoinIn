@@ -225,7 +225,7 @@
         
         document.getElementById('qr-event-name').textContent = eventName;
         document.getElementById('qr-code-image').src = 
-          `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://localhost:3000/registration/${qrCode}`;
+          `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/${qrCode}`;
         
         viewRegistrationModal.classList.add('hidden');
         qrModal.classList.remove('hidden');
@@ -404,7 +404,7 @@
       }
       
       try {
-        const response = await fetch(`http://localhost:3000/admin/event/${title}`, {
+        const response = await fetch(`https://joinin.nick-lemy.tech/admin/event/${title}`, {
           method: 'DELETE'
         });
         
@@ -437,7 +437,7 @@
           <td class="px-6 py-4 whitespace-nowrap">${reg.event_name}</td>
           <td class="px-6 py-4 whitespace-nowrap">${formatDate(reg.registered_at)}</td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <a href="http://localhost:3000/registration/${reg.qr_code}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${reg.checked_in === 'true' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">
+            <a href="https://joinin.nick-lemy.tech/registration/${reg.qr_code}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${reg.checked_in === 'true' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">
               ${reg.checked_in === 'true' ? 'Checked In' : 'Pending...'}
             </a>
           </td>

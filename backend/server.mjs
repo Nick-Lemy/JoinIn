@@ -267,5 +267,5 @@ app.get("/admin", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  // console.log(`server runing on port ${PORT} http://localhost:${PORT}`);
+  console.log(`server runing on port ${PORT} http://localhost:${PORT}`);
 });

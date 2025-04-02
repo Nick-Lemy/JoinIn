@@ -28,29 +28,26 @@ export const returnEvent = (
     }
   </style>
     <!-- Streamlined Header -->
-    <header class="sticky z-40 -top-0.5">
-      <nav class="bg-[#0F2449] border-blue-950 py-4 border-b-1">
-        <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
-          <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
-          <!-- Mobile menu button -->
-          <button id="menu-toggle" class="sm:hidden block text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <!-- Menu -->
-          <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
-            <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
-            <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
-            <li><a href="/contact-us" class="block py-2 sm:py-0">Contact Us</a></li>
-            <li><a href="/about-us" class="block py-2 sm:py-0">About Us</a></li>
-          </ul>
-          <div class="profile-icon hidden sm:block">
-            <img class="w-10" src="/codicon_account.png" alt="Profile" />
-          </div>
-        </div>
-      </nav>
-    </header>
+  <header class="sticky z-40 -top-0.5">
+    <nav class="bg-[#0F2449] border-blue-950 py-4 shadow-[0_20px_50px_rgba(10,_10,_10,_0.4)] border-b-1">
+      <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
+        <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
+        <button id="menu-toggle" class="sm:hidden block text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
+          <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
+          <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
+          <li><a href="/account" class="block py-2 sm:py-0">History</a></li>
+        </ul>
+        <a href="/account" class="profile-icon hidden sm:block">
+          <img class="w-10" src="/codicon_account.png" alt="Profile" />
+        </a>
+      </div>
+    </nav>
+  </header>
     <!-- Event Details Container -->
 <div class="max-w-7xl mx-auto py-8 items-center px-7 sm:px-8">
   <!-- Breadcrumb - Keeping original structure -->
@@ -157,7 +154,7 @@ export const returnEvent = (
 
             <p class="text-center text-gray-800"><span class="font-bold text-xl">${title}</span> </p>
           <div class="flex flex-col items-center">
-            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://localhost:3000/registration/JoinIn-${event_id}-${314 * Number(user.id)}" 
+            <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/JoinIn-${event_id}-${314 * Number(user.id)}" 
                  alt="Event QR Code" class="border border-gray-200 p-2 mb-4">
             <p class="text-gray-600 text-sm">This QR code will be scan at the event entrance</p>
           </div>
@@ -177,7 +174,7 @@ export const returnEvent = (
 
   const registerButton = document.getElementById('register-btn');
   registerButton.addEventListener('click', () => {
-    fetch('http://localhost:3000/api/events/registration/', {
+    fetch('https://joinin.nick-lemy.tech/api/events/registration/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -280,27 +277,26 @@ export const registration_html = (
     }
   </style>
     <!-- Header -->
-    <header class="sticky z-40 -top-0.5">
-      <nav class="bg-[#0F2449] border-blue-950 py-4 border-b-1">
-        <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
-          <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
-          <button id="menu-toggle" class="sm:hidden block text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
-            <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
-            <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
-            <li><a href="/admin" class="block py-2 sm:py-0">Admin</a></li>
-            <li><a href="/scanner" class="block py-2 sm:py-0">Scanner</a></li>
-          </ul>
-          <div class="profile-icon hidden sm:block">
-            <img class="w-10" src="/codicon_account.png" alt="Admin Profile" />
-          </div>
-        </div>
-      </nav>
-    </header>
+  <header class="sticky z-40 -top-0.5">
+    <nav class="bg-[#0F2449] border-blue-950 py-4 shadow-[0_20px_50px_rgba(10,_10,_10,_0.4)] border-b-1">
+      <div class="justify-between flex flex-wrap max-w-7xl mx-auto items-center px-9 sm:px-0">
+        <a href="/"><img src="/logo.png" alt="JoinIn logo" class="w-16 sm:w-32 h-auto" /></a>
+        <button id="menu-toggle" class="sm:hidden block text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul id="menu" class="hidden sm:flex w-full sm:w-auto flex-col sm:flex-row gap-4 sm:gap-10 text-white text-lg mt-4 sm:mt-0">
+          <li><a href="/" class="block py-2 sm:py-0">Home</a></li>
+          <li><a href="/events" class="block py-2 sm:py-0">Events</a></li>
+          <li><a href="/account" class="block py-2 sm:py-0">History</a></li>
+        </ul>
+        <a href="/account" class="profile-icon hidden sm:block">
+          <img class="w-10" src="/codicon_account.png" alt="Profile" />
+        </a>
+      </div>
+    </nav>
+  </header>
 
     <!-- Admin Check-In Container -->
     <div class="max-w-7xl mx-auto py-8 items-center px-7 sm:px-8">
@@ -403,12 +399,13 @@ export const registration_html = (
     </div>
 
     <script>
-      // Mobile menu toggle
-      document.getElementById("menu-toggle").addEventListener("click", function () {
-        const menu = document.getElementById("menu");
-        menu.classList.toggle("hidden");
-        menu.classList.toggle("flex");
-      });
+      document
+        .getElementById("menu-toggle")
+        .addEventListener("click", function() {
+          const menu = document.getElementById("menu");
+          menu.classList.toggle("hidden");
+          menu.classList.toggle("flex");
+        });
 
       // DOM elements
       const statusCard = document.getElementById('statusCard');
@@ -446,7 +443,7 @@ export const registration_html = (
             timestamp: new Date().toISOString()
           };
 
-          const response = await fetch('http://localhost:3000/registration/${qr}', {
+          const response = await fetch('https://joinin.nick-lemy.tech/registration/${qr}', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
