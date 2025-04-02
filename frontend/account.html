@@ -96,9 +96,14 @@
                     <span>${formatReadableDate(registered_at)}</span>
                   </div>
                 </div>
-                <button onclick="showQRPopup('${qr_code}', '${event_name}')" class="mt-2 text-blue-600 self-end hover:text-blue-800 text-sm font-medium">
-                  View QR Code
-                </button>
+               <div class="flex justify-between">
+                  <a href="/feedback/${event_name}" class="mt-2 text-blue-600 self-end hover:text-blue-800 text-sm font-medium">
+                    Give Feedback
+                  </a>
+                  <button onclick="showQRPopup('${qr_code}', '${event_name}')" class="mt-2 text-blue-600 self-end hover:text-blue-800 text-sm font-medium">
+                    View QR Code
+                  </button>
+                </div>
               </div>
             </div>`;
         }

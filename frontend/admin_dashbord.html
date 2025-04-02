@@ -41,12 +41,6 @@
           </li>
         </ul>
       </nav>
-      <div class="absolute bottom-0 w-full p-4 border-t border-blue-800">
-        <a href="/logout" class="flex items-center space-x-3 p-3 rounded-md hover:bg-blue-800 transition-colors">
-          <i class="fas fa-sign-out-alt w-5 text-center"></i>
-          <span>Logout</span>
-        </a>
-      </div>
     </div>
 
     <!-- Main Content -->
@@ -369,7 +363,7 @@
         populateRegistrationsTable(registrations);
         
         // Load feedback (UNCHANGED)
-        const feedbackResponse = await fetch('/api/feedback');
+        const feedbackResponse = await fetch('https://joinin.nick-lemy.tech/feedbacks');
         const feedback = await feedbackResponse.json();
         populateFeedbackList(feedback);
         
@@ -456,8 +450,8 @@
         feedbackItem.innerHTML = `
           <div class="flex justify-between items-start">
             <div>
-              <h4 class="font-semibold text-lg">${item.event.title}</h4>
-              <p class="text-gray-600">${item.user.first_name} ${item.user.last_name}</p>
+              <h4 class="font-semibold text-lg">${item.event_name}</h4>
+              <p class="text-gray-600">${item.username}</p>
             </div>
             <div class="flex items-center">
               ${renderStars(item.rating)}

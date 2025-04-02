@@ -12,7 +12,7 @@ import eventRoutes from "./routes/eventRouters.mjs";
 import { __dirname } from "./config.mjs";
 import { sessionHandler } from "./config.mjs";
 import { showAllEvents } from "./models/eventModel.mjs";
-import { registration_html, returnEvent } from "./htmls.mjs";
+import { feedback, registration_html, returnEvent } from "./htmls.mjs";
 import { db } from "./config.mjs";
 
 const app = express();
@@ -94,9 +94,49 @@ app.get("/registrations", async (req, res) => {
   }
 });
 
-app.post("/feedback/:qr", async (req, res) => {
-  const { rating, comment } = req.body
-  const { qr } = req.params;
+app.get("/feedbacks", async (req, res) => {
+  const feedbacks = await db.sql(`
+    USE DATABASE database.sqlite; 
+    SELECT * FROM feedback;
+    `);
+  const data = [];
+  await Promise.all(
+    Array.from(feedbacks).map(async (feedback) => {
+      // console.log(registration.user_id);
+      console.log(feedback)
+      const [registration] = await db.sql(`
+      USE DATABASE database.sqlite; 
+      SELECT * FROM registrations WHERE id = '${feedback.registration_id}';
+      `);
+      const [event] = await db.sql(`
+        USE DATABASE database.sqlite; 
+        SELECT * FROM events WHERE id = '${registration.event_id}';
+        `);
+      const [user] = await db.sql(`
+        USE DATABASE database.sqlite; 
+        SELECT * FROM users WHERE id = '${registration.user_id}';
+        `);
+      const { rating, comments, submitted_at } = feedback
+      data.push({
+        username: user.first_name + " " + user.last_name,
+        email: user.email,
+        event_name: event.title,
+        submitted_at,
+        rating,
+        comments,
+      });
+    })
+  );
+  return res.send(data)
+});
+
+app.post("/feedback/:event_name", async (req, res) => {
+  const { rating, comment } = req.body;
+  const { event_name } = req.params;
+  const allEvents = await showAllEvents();
+  const event = await allEvents.find((event) => event.title === event_name);
+  console.log(event);
+  const qr = `JoinIn-${event.id}-${314 * Number(req.session.user.id)}`;
   const [registration] = await db.sql(`
     USE DATABASE database.sqlite; 
     SELECT * FROM registrations WHERE qr_code = '${qr}';
@@ -104,10 +144,18 @@ app.post("/feedback/:qr", async (req, res) => {
   const { id } = registration;
   const feedback = await db.sql(`
     USE DATABASE database.sqlite; 
-    INSERT INTO feedback (registration_id, rating, comment, submitted_at)
-    VALUES ('${id}', '${rating}', '${comment}', '${date}');
+    INSERT INTO feedback (registration_id, rating, comments, submitted_at)
+    VALUES ('${id}', '${rating}', '${comment}', '${Date.now()}');
   `);
-  return res.send(feedback)
+  return res.send(feedback);
+});
+
+app.get("/feedback/:event_name", async (req, res) => {
+  const { event_name } = req.params;
+  const allEvents = await showAllEvents();
+  const event = await allEvents.find((event) => event.title === event_name);
+  const qr = `JoinIn-${event.id}-${314 * Number(req.session.user.id)}`;
+  return res.send(feedback(event_name, qr));
 });
 
 app.patch("/registration/:qr", adminAuthVerification, async (req, res) => {
