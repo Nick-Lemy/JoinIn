@@ -41,7 +41,7 @@ const fetchAll = async () => {
       for (const elem of data) {
         const { id, title, location, image_link, date, max_attendees } = elem;
         content += `
-<div class="bg-white border rounded-lgl shadow-md overflow-hidden transition-transform hover:scale-[1.005]">
+<div class="bg-white border rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.005]">
   <div class="">
     <img src="${image_link}" alt="Event" class="w-full h-52 object-cover">
   </div>

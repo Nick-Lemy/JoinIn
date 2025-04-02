@@ -148,7 +148,7 @@ app.get("/events/:id", async (req, res) => {
   );
 });
 
-app.get("/registrations/all/", async (req, res) => {
+app.get("/registrations/all", async (req, res) => {
   try {
     const eventsRegistred = await db.sql(`
       USE DATABASE database.sqlite; 
@@ -176,6 +176,14 @@ app.get("/registrations/all/", async (req, res) => {
     return res.status(500).send("An error occurred");
   }
 });
+
+// admin 
+
+// app.get('admin',async (req, res)=>{
+//   try{
+//     const event = 
+//   }
+// })
 
 app.listen(PORT, () => {
   console.log(`server runing on port ${PORT} http://localhost:${PORT}`);
