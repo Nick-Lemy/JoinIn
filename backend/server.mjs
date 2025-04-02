@@ -288,7 +288,7 @@ app.get("/events/:id", async (req, res) => {
   );
 });
 
-app.get("/registrations/all", adminAuthVerification, async (req, res) => {
+app.get("/registrations/all", async (req, res) => {
   try {
     const eventsRegistred = await db.sql(`
       USE DATABASE database.sqlite; 
