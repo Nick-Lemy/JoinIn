@@ -19,11 +19,13 @@ export const {
   SESSION_DURATION,
 } = process.env;
 
-export const __dirname =
-  dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
+export const __dirname = dirname(fileURLToPath(import.meta.url)) + "/../frontend/";
 export const db = new Database(SQL_DRIVE);
 
 export const redisClient = createClient({
+  socket: {
+    keepAlive: true,
+  },
   username: REDIS_USERNAME,
   password: REDIS_PASSWORD,
   socket: {
@@ -31,14 +33,19 @@ export const redisClient = createClient({
     port: REDIS_PORT,
   },
 });
-redisClient.connect().catch(console.error);
+try {
+  redisClient.connect();
+} catch (error) {
+  console.error(error);
+  redisClient.connect();
+}
 
 export const sessionHandler = session({
   store: new RedisStore({ client: redisClient }),
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: SESSION_DURATION | (1000 * 60 * 15) }, // 15 minutes
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 15 },
 });
 
 export const passwordHasher = async (password) => {
@@ -50,9 +57,5 @@ export const passwordHasher = async (password) => {
 export const verify = async (password, storedPassword) => {
   const passwordMatched = await bcrypt.compare(password, storedPassword);
 
-  if (passwordMatched) {
-    console.log("OK: Verification is successful.");
-  } else {
-    console.error("ERR: Verification failed.");
-  }
+  return passwordMatched;
 };

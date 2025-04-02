@@ -1,4 +1,4 @@
-import { showAllEvents } from "../models/eventModel.mjs";
+import { showAllEvents, eventRegistration } from "../models/eventModel.mjs";
 
 export const showAllEventsController = async (req, res) => {
   try {
@@ -18,5 +18,17 @@ export const checkOneEvent = async (req, res) => {
     const theEvent = events.find(event=>event.name === id)
   } catch (error) {
     
+  }
+}
+
+export const eventRegistrationController = async (req, res) =>{
+  try {
+    const registration = await eventRegistration(req.session.user['id'], req.body)
+    // console.log(registration)
+    return res.status(200).send(registration)
+  } catch (error) {
+    return res
+      .status(404)
+      .send({ message: "Failed to register", error: error.message }); 
   }
 }
