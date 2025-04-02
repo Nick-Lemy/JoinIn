@@ -63,7 +63,7 @@
 
     const fetchAll = async () => {
       try {
-        const response = await fetch("https://joinin.nick-lemy.tech/registrations/all/");
+        const response = await fetch("http://localhost:3000/registrations/all/");
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -111,7 +111,7 @@
             <div class="p-6">
               <p class="text-center text-gray-800"><span class="font-bold text-xl">${event_name}</span></p>
               <div class="flex flex-col items-center pt-3">
-                <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/${qr_code}" 
+                <img id="qrCodeImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://localhost:3000/registration/${qr_code}" 
                      alt="Event QR Code" class="border border-gray-200 p-2 mb-4">
                 <p class="text-gray-600 text-sm">This QR code will be scanned at the event entrance</p>
               </div>
@@ -137,7 +137,7 @@
 
     function downloadQR(qr_code, event_name) {
       const link = document.createElement('a');
-      link.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://joinin.nick-lemy.tech/registration/JoinIn-${qr_code}`;
+      link.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://localhost:3000/registration/JoinIn-${qr_code}`;
       link.download = `JoinIn-${event_name}-QRCode.png`;
       document.body.appendChild(link);
       link.click();

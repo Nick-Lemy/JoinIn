@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Admin Dashboard | JoinIn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 font-poppins">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div class="sidebar bg-[#0F2449] text-white w-64 flex-shrink-0 hidden md:block">
+      <div class="p-4 border-b border-blue-800">
+        <a href="/admin" class="flex items-center space-x-3">
+          <img src="/logo.png" alt="JoinIn logo" class="w-10 h-auto" />
+          <span class="text-xl font-semibold">JoinIn Admin</span>
+        </a>
+      </div>
+      <nav class="p-4">
+        <ul class="space-y-2">
+          <li>
+            <a href="#events" class="flex items-center space-x-3 p-3 rounded-md hover:bg-blue-800 transition-colors tab-link active-tab">
+              <i class="fas fa-calendar-alt w-5 text-center"></i>
+              <span>Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="#registrations" class="flex items-center space-x-3 p-3 rounded-md hover:bg-blue-800 transition-colors tab-link">
+              <i class="fas fa-users w-5 text-center"></i>
+              <span>Registrations</span>
+            </a>
+          </li>
+          <li>
+            <a href="#feedback" class="flex items-center space-x-3 p-3 rounded-md hover:bg-blue-800 transition-colors tab-link">
+              <i class="fas fa-comment-alt w-5 text-center"></i>
+              <span>Feedback</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="absolute bottom-0 w-full p-4 border-t border-blue-800">
+        <a href="/logout" class="flex items-center space-x-3 p-3 rounded-md hover:bg-blue-800 transition-colors">
+          <i class="fas fa-sign-out-alt w-5 text-center"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-auto">
+      <div class="p-6">
+        <!-- Events Section -->
+        <section id="events" class="content-section">
+          <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Events Management</h1>
+            <button id="add-event-btn" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+              <i class="fas fa-plus mr-2"></i> Add Event
+            </button>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="events-table-body">
+                  <!-- Events will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Registrations Section -->
+        <section id="registrations" class="content-section hidden">
+          <h1 class="text-2xl font-bold mb-6">Event Registrations</h1>
+          
+          <div class="mb-6 flex flex-col sm:flex-row gap-4">
+            <div class="relative w-full sm:w-64">
+              <select id="event-filter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Events</option>
+                <!-- Event options will be loaded here -->
+              </select>
+            </div>
+            <div class="relative w-full sm:w-64">
+              <input type="text" id="registration-search" placeholder="Search..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="registrations-table-body">
+                  <!-- Registrations will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section id="feedback" class="content-section hidden">
+          <h1 class="text-2xl font-bold mb-6">Event Feedback</h1>
+          
+          <div class="mb-6 flex flex-col sm:flex-row gap-4">
+            <div class="relative w-full sm:w-64">
+              <select id="feedback-event-filter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Events</option>
+                <!-- Event options will be loaded here -->
+              </select>
+            </div>
+            <div class="relative w-full sm:w-64">
+              <select id="feedback-rating-filter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Ratings</option>
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="space-y-4" id="feedback-list">
+            <!-- Feedback items will be loaded here -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Registration Modal -->
+  <div id="view-registration-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Registration Details</h3>
+          <button id="close-view-registration-modal" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="space-y-4" id="registration-details">
+          <!-- Registration details will be loaded here -->
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button id="view-qr-btn" class="px-4 py-2 bg-[#0F2449] text-white rounded hover:bg-[#193865] transition-colors">
+            View QR Code
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div class="p-6">
+        <p class="text-center text-gray-800"><span class="font-bold text-xl" id="qr-event-name"></span></p>
+        <div class="flex flex-col items-center pt-3">
+          <img id="qr-code-image" alt="Event QR Code" class="border border-gray-200 p-2 mb-4 w-48 h-48">
+          <p class="text-gray-600 text-sm">This QR code will be scanned at the event entrance</p>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-6 pb-5 rounded-b-lg flex justify-center">
+        <button id="close-qr-modal" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab navigation
+      const tabLinks = document.querySelectorAll('.tab-link');
+      const contentSections = document.querySelectorAll('.content-section');
+      
+      tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const sectionId = this.getAttribute('href').substring(1);
+          
+          // Update active tab
+          tabLinks.forEach(tab => tab.classList.remove('active-tab'));
+          this.classList.add('active-tab');
+          
+          // Show selected section
+          contentSections.forEach(section => section.classList.add('hidden'));
+          document.getElementById(sectionId).classList.remove('hidden');
+        });
+      });
+
+      // Modal handling
+      const viewRegistrationModal = document.getElementById('view-registration-modal');
+      const closeViewRegistrationModal = document.getElementById('close-view-registration-modal');
+      const qrModal = document.getElementById('qr-modal');
+      const closeQrModal = document.getElementById('close-qr-modal');
+      const viewQrBtn = document.getElementById('view-qr-btn');
+      
+      closeViewRegistrationModal.addEventListener('click', () => viewRegistrationModal.classList.add('hidden'));
+      closeQrModal.addEventListener('click', () => qrModal.classList.add('hidden'));
+      
+      viewQrBtn.addEventListener('click', function() {
+        const qrCode = this.getAttribute('data-qr');
+        const eventName = this.getAttribute('data-event');
+        
+        document.getElementById('qr-event-name').textContent = eventName;
+        document.getElementById('qr-code-image').src = 
+          `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://localhost:3000/registration/${qrCode}`;
+        
+        viewRegistrationModal.classList.add('hidden');
+        qrModal.classList.remove('hidden');
+      });
+
+      // Load data from your API
+      loadData();
+    });
+
+    async function loadData() {
+      try {
+        // Load events
+        const eventsResponse = await fetch('/api/events');
+        const events = await eventsResponse.json();
+        
+        populateEventsTable(events);
+        populateEventFilters(events);
+        
+        // Load registrations
+        const registrationsResponse = await fetch('/registrations');
+        const registrations = await registrationsResponse.json();
+        populateRegistrationsTable(registrations);
+        
+        // Load feedback
+        const feedbackResponse = await fetch('/api/feedback');
+        const feedback = await feedbackResponse.json();
+        populateFeedbackList(feedback);
+        
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    function populateEventsTable(events) {
+      const tableBody = document.getElementById('events-table-body');
+      tableBody.innerHTML = '';
+      
+      events.forEach(event => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap">${event.title}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${event.date}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${event.location}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button class="text-red-600 hover:text-red-900">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function populateRegistrationsTable(registrations) {
+      const tableBody = document.getElementById('registrations-table-body');
+      tableBody.innerHTML = '';
+      
+      registrations.forEach(reg => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap">${reg.username}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${reg.email}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${reg.event_name}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${formatDate(reg.registered_at)}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <a href="http://localhost:3000/registration/${reg.qr_code}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${reg.checked_in === 'true' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">
+              ${reg.checked_in === 'true' ? 'Checked In' : 'Pending...'}
+            </a>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function populateFeedbackList(feedback) {
+      const feedbackList = document.getElementById('feedback-list');
+      feedbackList.innerHTML = '';
+      
+      feedback.forEach(item => {
+        const feedbackItem = document.createElement('div');
+        feedbackItem.className = 'bg-white rounded-lg shadow p-6';
+        feedbackItem.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-semibold text-lg">${item.event.title}</h4>
+              <p class="text-gray-600">${item.user.first_name} ${item.user.last_name}</p>
+            </div>
+            <div class="flex items-center">
+              ${renderStars(item.rating)}
+              <span class="ml-2 text-gray-500 text-sm">${formatDate(item.submitted_at)}</span>
+            </div>
+          </div>
+          <div class="mt-3 text-gray-700">
+            <p>${item.comments || 'No comments provided'}</p>
+          </div>
+        `;
+        feedbackList.appendChild(feedbackItem);
+      });
+    }
+
+    function populateEventFilters(events) {
+      const eventFilter = document.getElementById('event-filter');
+      const feedbackEventFilter = document.getElementById('feedback-event-filter');
+      
+      events.forEach(event => {
+        const option = document.createElement('option');
+        option.value = event.id;
+        option.textContent = event.title;
+        eventFilter.appendChild(option.cloneNode(true));
+        feedbackEventFilter.appendChild(option.cloneNode(true));
+      });
+    }
+
+    function viewRegistration(qrCode, eventName) {
+      // In a real implementation, you would fetch this data from your API
+      const modal = document.getElementById('view-registration-modal');
+      const details = document.getElementById('registration-details');
+      
+      // Set the QR code data on the view button
+      const viewQrBtn = document.getElementById('view-qr-btn');
+      viewQrBtn.setAttribute('data-qr', qrCode);
+      viewQrBtn.setAttribute('data-event', eventName);
+      
+      // Show the modal
+      modal.classList.remove('hidden');
+    }
+
+    // Helper functions
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    function getEventStatus(eventDate) {
+      const now = new Date();
+      const event = new Date(eventDate);
+      return now > event ? 'Completed' : 'Upcoming';
+    }
+
+    function getStatusClass(event) {
+      const status = getEventStatus(event.date);
+      return status === 'Upcoming' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
+    }
+
+    function renderStars(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        stars += i <= rating 
+          ? '<i class="fas fa-star text-yellow-400"></i>' 
+          : '<i class="far fa-star text-yellow-400"></i>';
+      }
+      return stars;
+    }
+          // Add Event Modal
+          const addEventModal = document.createElement('div');
+      addEventModal.innerHTML = `
+        <div id="add-event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+          <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Add New Event</h3>
+                <button id="close-event-modal" class="text-gray-500 hover:text-gray-700">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <form id="event-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label for="event-name" class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                    <input type="text" id="event-name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                  <div>
+                    <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                    <input type="datetime-local" id="event-date" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label for="event-location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <input type="text" id="event-location" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                  <div>
+                    <label for="event-capacity" class="block text-sm font-medium text-gray-700 mb-1">Capacity</label>
+                    <input type="number" id="event-capacity" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label for="event-description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <textarea id="event-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <div class="mb-4">
+                  <label for="event-image" class="block text-sm font-medium text-gray-700 mb-1">Image Link</label>
+                  <input type="text" id="event-image" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="flex justify-end space-x-3">
+                  <button type="button" id="cancel-event" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                    Cancel
+                  </button>
+                  <button type="submit" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+                    Save Event
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(addEventModal);
+
+      // Event Modal Interactions
+      const modal = document.getElementById('add-event-modal');
+      const addEventBtn = document.getElementById('add-event-btn');
+      const closeModalBtn = document.getElementById('close-event-modal');
+      const cancelBtn = document.getElementById('cancel-event');
+      const eventForm = document.getElementById('event-form');
+
+      addEventBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+      });
+
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+
+      eventForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const eventData = {
+          title: document.getElementById('event-name').value,
+          description: document.getElementById('event-description').value,
+          date: document.getElementById('event-date').value,
+          location: document.getElementById('event-location').value,
+          max_attendees: document.getElementById('event-capacity').value || null,
+          image_link: document.getElementById('event-image').value || ''
+        };
+
+        try {
+          const response = await fetch('/admin/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(eventData)
+          });
+
+          if (response.ok) {
+            const newEvent = await response.json();
+            loadData();
+            modal.classList.add('hidden');
+            eventForm.reset();
+          } else {
+            console.error('Failed to create event');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+
+      // Load data from your API
+      loadData();
+    async function loadData() {
+      try {
+        // Load events
+        const eventsResponse = await fetch('/api/events');
+        const events = await eventsResponse.json();
+        
+        populateEventsTable(events);
+        populateEventFilters(events);
+        
+        // Load registrations
+        const registrationsResponse = await fetch('/registrations');
+        const registrations = await registrationsResponse.json();
+        populateRegistrationsTable(registrations);
+        
+        // Load feedback
+        const feedbackResponse = await fetch('/api/feedback');
+        const feedback = await feedbackResponse.json();
+        populateFeedbackList(feedback);
+        
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    function populateEventsTable(events) {
+      const tableBody = document.getElementById('events-table-body');
+      tableBody.innerHTML = '';
+      
+      events.forEach(event => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap">${event.title}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${event.date}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${event.location}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button class="text-red-600 hover:text-red-900">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function populateRegistrationsTable(registrations) {
+      const tableBody = document.getElementById('registrations-table-body');
+      tableBody.innerHTML = '';
+      
+      registrations.forEach(reg => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap">${reg.username}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${reg.email}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${reg.event_name}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${formatDate(reg.registered_at)}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <a href="http://localhost:3000/registration/${reg.qr_code}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${reg.checked_in === 'true' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">
+              ${reg.checked_in === 'true' ? 'Checked In' : 'Pending...'}
+            </a>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function populateFeedbackList(feedback) {
+      const feedbackList = document.getElementById('feedback-list');
+      feedbackList.innerHTML = '';
+      
+      feedback.forEach(item => {
+        const feedbackItem = document.createElement('div');
+        feedbackItem.className = 'bg-white rounded-lg shadow p-6';
+        feedbackItem.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-semibold text-lg">${item.event.title}</h4>
+              <p class="text-gray-600">${item.user.first_name} ${item.user.last_name}</p>
+            </div>
+            <div class="flex items-center">
+              ${renderStars(item.rating)}
+              <span class="ml-2 text-gray-500 text-sm">${formatDate(item.submitted_at)}</span>
+            </div>
+          </div>
+          <div class="mt-3 text-gray-700">
+            <p>${item.comments || 'No comments provided'}</p>
+          </div>
+        `;
+        feedbackList.appendChild(feedbackItem);
+      });
+    }
+
+    function populateEventFilters(events) {
+      const eventFilter = document.getElementById('event-filter');
+      const feedbackEventFilter = document.getElementById('feedback-event-filter');
+      
+      events.forEach(event => {
+        const option = document.createElement('option');
+        option.value = event.id;
+        option.textContent = event.title;
+        eventFilter.appendChild(option.cloneNode(true));
+        feedbackEventFilter.appendChild(option.cloneNode(true));
+      });
+    }
+
+    function viewRegistration(qrCode, eventName) {
+      const modal = document.getElementById('view-registration-modal');
+      const details = document.getElementById('registration-details');
+      
+      const viewQrBtn = document.getElementById('view-qr-btn');
+      viewQrBtn.setAttribute('data-qr', qrCode);
+      viewQrBtn.setAttribute('data-event', eventName);
+      
+      modal.classList.remove('hidden');
+    }
+
+    // Helper functions
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    function getEventStatus(eventDate) {
+      const now = new Date();
+      const event = new Date(eventDate);
+      return now > event ? 'Completed' : 'Upcoming';
+    }
+
+    function getStatusClass(event) {
+      const status = getEventStatus(event.date);
+      return status === 'Upcoming' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
+    }
+
+    function renderStars(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        stars += i <= rating 
+          ? '<i class="fas fa-star text-yellow-400"></i>' 
+          : '<i class="far fa-star text-yellow-400"></i>';
+      }
+      return stars;
+    }
+  </script>
+</body>
+</html>
