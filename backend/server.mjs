@@ -14,7 +14,6 @@ import { sessionHandler } from "./config.mjs";
 import { showAllEvents } from "./models/eventModel.mjs";
 import { registration_html, returnEvent } from "./htmls.mjs";
 import { db } from "./config.mjs";
-import { send } from "vite";
 
 const app = express();
 
