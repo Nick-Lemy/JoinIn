@@ -14,6 +14,7 @@ import { sessionHandler } from "./config.mjs";
 import { showAllEvents } from "./models/eventModel.mjs";
 import { registration_html, returnEvent } from "./htmls.mjs";
 import { db } from "./config.mjs";
+import { send } from "vite";
 
 const app = express();
 
@@ -58,7 +59,7 @@ app.get("/account", (req, res) => {
   return res.sendFile(path.join(__dirname + "account.html"));
 });
 
-app.get("/registrations", async (req, res)=>{
+app.get("/registrations", async (req, res) => {
   try {
     const eventsRegistred = await db.sql(`
       USE DATABASE database.sqlite; 
@@ -68,22 +69,22 @@ app.get("/registrations", async (req, res)=>{
     // Use Promise.all to wait for all async operations to complete
     await Promise.all(
       Array.from(eventsRegistred).map(async (registration) => {
-        console.log(registration.user_id)
+        // console.log(registration.user_id);
         const [event] = await db.sql(`
         USE DATABASE database.sqlite; 
         SELECT * FROM events WHERE id = '${registration.event_id}';`);
         const [user] = await db.sql(`
           USE DATABASE database.sqlite; 
-          SELECT * FROM users WHERE id = '${registration['user_id']}';`);
+          SELECT * FROM users WHERE id = '${registration["user_id"]}';`);
         const { date, qr_code, registered_at, checked_in } = registration;
         data.push({
-          username:  user.first_name + ' ' + user.last_name,
+          username: user.first_name + " " + user.last_name,
           email: user.email,
           event_name: event.title,
           registered_at,
           qr_code,
-          checked_in
-         });
+          checked_in,
+        });
       })
     );
     // data = data.sort((a, b)=>a.registered_at - b.registered_at)
@@ -92,17 +93,17 @@ app.get("/registrations", async (req, res)=>{
     console.error(error);
     return res.status(500).send("An error occurred");
   }
-})
+});
 
 app.patch("/registration/:qr", adminAuthVerification, async (req, res) => {
   const { qr } = req.params;
-  console.log(qr);
+  // console.log(qr);
   try {
     const registration = await db.sql(`
       USE DATABASE database.sqlite; 
       SELECT * FROM registrations WHERE qr_code = '${qr}';
       `);
-    console.log(registration);
+    // console.log(registration);
 
     if (!registration) {
       return res.status(404).json({ message: "Registration not found" });
@@ -127,7 +128,7 @@ app.get("/registration/:qr", adminAuthVerification, async (req, res) => {
   SELECT * FROM registrations
         `);
   const findRegistration = registrations.find((reg) => reg.qr_code === qr);
-  console.log(findRegistration);
+  // console.log(findRegistration);
   if (typeof findRegistration !== "undefined") {
     const allUsers = await db.sql(`
       USE DATABASE database.sqlite; 
@@ -157,26 +158,47 @@ app.get("/registration/:qr", adminAuthVerification, async (req, res) => {
   } else return res.status(404).send(`<h3>Registration not found!</h3>`);
 });
 
-app.post('/admin/event', async (req, res) => {
-  const { title, description, image_link, date, location, max_attendees } = req.body;
-  
+app.delete("/admin/event/:title", async (req, res) => {
+  try {
+    const { title } = req.params;
+    const deleteEvent = await db.sql(
+      `
+      USE DATABASE database.sqlite; 
+      DELETE FROM events WHERE title = '${title}';
+    `
+    );
+    return res.send(deleteEvent);
+  } catch (error) {
+    console.error(error);
+    return res.send({ error });
+  }
+});
+
+app.post("/admin/event", async (req, res) => {
+  const { title, description, image_link, date, location, max_attendees } =
+    req.body;
+
   try {
     const result = await db.sql(`
       USE DATABASE database.sqlite; 
       INSERT INTO events (title, description, image_link, date, location, max_attendees, organizer_id)
-      VALUES ('${title}', '${description}', '${image_link || ''}', '${date}', '${location}', ${max_attendees || 'NULL'}, ${req.session.user.id});
+      VALUES ('${title}', '${description}', '${
+      image_link || ""
+    }', '${date}', '${location}', ${max_attendees || "NULL"}, ${
+      req.session.user.id
+    });
     `);
-    
+
     // Get the newly created event
     const newEvent = await db.sql(`
       USE DATABASE database.sqlite; 
       SELECT * FROM events WHERE id = last_insert_rowid();
     `);
-    
+
     res.status(201).json(newEvent);
   } catch (error) {
-    console.error('Error creating event:', error);
-    res.status(500).json({ error: 'Failed to create event' });
+    console.error("Error creating event:", error);
+    res.status(500).json({ error: "Failed to create event" });
   }
 });
 
@@ -217,27 +239,33 @@ app.get("/registrations/all", async (req, res) => {
         USE DATABASE database.sqlite; 
         SELECT * FROM events WHERE id = '${registration.event_id}';`);
         const { date, qr_code, registered_at } = registration;
-        data.push({ 
+        data.push({
           event_name: event.title,
           registered_at,
-          qr_code
-         });
+          qr_code,
+        });
       })
     );
     // data = data.sort((a, b)=>a.registered_at - b.registered_at)
-    return res.send([data, {username: req.session.user.first_name + ' ' + req.session.user.last_name}]);
+    return res.send([
+      data,
+      {
+        username:
+          req.session.user.first_name + " " + req.session.user.last_name,
+      },
+    ]);
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred");
   }
 });
 
-// Admin 
+// Admin
 
-app.get('/admin' ,async (req, res)=>{
+app.get("/admin", async (req, res) => {
   return res.sendFile(path.join(__dirname + "admin_dashbord.html"));
-})
+});
 
 app.listen(PORT, () => {
-  console.log(`server runing on port ${PORT} http://localhost:${PORT}`);
+  // console.log(`server runing on port ${PORT} http://localhost:${PORT}`);
 });

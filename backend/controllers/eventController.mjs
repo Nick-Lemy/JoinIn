@@ -24,7 +24,7 @@ export const checkOneEvent = async (req, res) => {
 export const eventRegistrationController = async (req, res) =>{
   try {
     const registration = await eventRegistration(req.session.user['id'], req.body)
-    console.log(registration)
+    // console.log(registration)
     return res.status(200).send(registration)
   } catch (error) {
     return res

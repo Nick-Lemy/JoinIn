@@ -430,7 +430,7 @@ export const registration_html = (
       }
 
       // Set initial state based on checked_in parameter
-      console.log(${checked_in})
+      // console.log(${checked_in})
       if (${checked_in} === true) {
         setCheckedInState();
       }
@@ -457,7 +457,7 @@ export const registration_html = (
           const data = await response.json();
 
           if (data.message === "Check-in successful") {
-            console.log('Check-in successful:', data);
+            // console.log('Check-in successful:', data);
             document.getElementById('confirmationModal').classList.remove('hidden');
             setCheckedInState();
           } else {

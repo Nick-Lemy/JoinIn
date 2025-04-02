@@ -18,7 +18,7 @@ export const userLoginController = async (req, res) => {
     if (findUser) {
       req.session.isAuthenticated = true;
       req.session.user = findUser
-      console.log(req.session.user)
+      // console.log(req.session.user)
       return res.status(200).send({ login: true });
     } else {
       return res.status(404).send({ login: false });
