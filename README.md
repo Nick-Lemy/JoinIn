@@ -4,6 +4,14 @@ Demo video: [click here](https://youtu.be/z7VisfvuD6g?si=_YHACnzJPkYq8J9A)
 
 Website link: [click here to "JoinIn"](https://joinin.nick-lemy.tech)
 
+## Table of Content
+
+### [1. Description](https://github.com/Nick-Lemy/JoinIn?tab=readme-ov-file#description)
+
+### [2. User Manual](#description)
+
+### [1. Conclusion](https://github.com/Nick-Lemy/JoinIn?tab=readme-ov-file#description)
+
 ## Description
 
 JoinIn is a user-friendly web application designed to streamline event management for the African Leadership Community. It addresses the challenge of students missing important event information due to low engagement with email notifications and the inefficiencies of traditional event coordination methods.
