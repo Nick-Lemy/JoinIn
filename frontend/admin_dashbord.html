@@ -48,11 +48,18 @@
       <div class="p-6">
         <!-- Events Section -->
         <section id="events" class="content-section">
-          <div class="flex justify-between items-center mb-6">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <h1 class="text-2xl font-bold">Events Management</h1>
-            <button id="add-event-btn" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
-              <i class="fas fa-plus mr-2"></i> Add Event
-            </button>
+            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <div class="relative w-full sm:w-64">
+                <input type="text" id="events-search" placeholder="Search events..." 
+                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              </div>
+              <button id="add-event-btn" class="bg-[#0F2449] text-white px-4 py-2 rounded hover:bg-[#193865] transition-colors">
+                <i class="fas fa-plus mr-2"></i> Add Event
+              </button>
+            </div>
           </div>
           
           <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -72,6 +79,9 @@
               </table>
             </div>
           </div>
+          <div id="events-no-results" class="hidden text-center py-8">
+            <p class="text-gray-500">No events found matching your search.</p>
+          </div>
         </section>
 
         <!-- Registrations Section -->
@@ -86,8 +96,15 @@
               </select>
             </div>
             <div class="relative w-full sm:w-64">
-              <input type="text" id="registration-search" placeholder="Search..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
+              <input type="text" id="registration-search" placeholder="Search name or email..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
               <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            <div class="relative w-full sm:w-64">
+              <select id="status-filter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Statuses</option>
+                <option value="true">Checked In</option>
+                <option value="false">Pending</option>
+              </select>
             </div>
           </div>
           
@@ -108,6 +125,9 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          <div id="registrations-no-results" class="hidden text-center py-8">
+            <p class="text-gray-500">No registrations found matching your criteria.</p>
           </div>
         </section>
 
@@ -132,10 +152,17 @@
                 <option value="1">1 Star</option>
               </select>
             </div>
+            <div class="relative w-full sm:w-64">
+              <input type="text" id="feedback-search" placeholder="Search comments..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
           </div>
           
           <div class="space-y-4" id="feedback-list">
             <!-- Feedback items will be loaded here -->
+          </div>
+          <div id="feedback-no-results" class="hidden text-center py-8">
+            <p class="text-gray-500">No feedback found matching your criteria.</p>
           </div>
         </section>
       </div>
@@ -183,6 +210,11 @@
   </div>
 
   <script>
+    // Global variables to store data
+    let allEvents = [];
+    let allRegistrations = [];
+    let allFeedback = [];
+
     document.addEventListener('DOMContentLoaded', function() {
       // Tab navigation
       const tabLinks = document.querySelectorAll('.tab-link');
@@ -344,35 +376,94 @@
         });
       }
 
+      // Search and filter event listeners
+      document.getElementById('events-search').addEventListener('input', filterEvents);
+      document.getElementById('event-filter').addEventListener('change', filterRegistrations);
+      document.getElementById('registration-search').addEventListener('input', filterRegistrations);
+      document.getElementById('status-filter').addEventListener('change', filterRegistrations);
+      document.getElementById('feedback-event-filter').addEventListener('change', filterFeedback);
+      document.getElementById('feedback-rating-filter').addEventListener('change', filterFeedback);
+      document.getElementById('feedback-search').addEventListener('input', filterFeedback);
+
       // Load data from your API
       loadData();
     });
 
     async function loadData() {
       try {
-        // Load events (UNCHANGED)
+        // Load events
         const eventsResponse = await fetch('/api/events');
-        const events = await eventsResponse.json();
+        allEvents = await eventsResponse.json();
         
-        populateEventsTable(events);
-        populateEventFilters(events);
+        populateEventsTable(allEvents);
+        populateEventFilters(allEvents);
         
-        // Load registrations (UNCHANGED)
+        // Load registrations
         const registrationsResponse = await fetch('/registrations');
-        const registrations = await registrationsResponse.json();
-        populateRegistrationsTable(registrations);
+        allRegistrations = await registrationsResponse.json();
+        populateRegistrationsTable(allRegistrations);
         
-        // Load feedback (UNCHANGED)
+        // Load feedback
         const feedbackResponse = await fetch('https://joinin.nick-lemy.tech/feedbacks');
-        const feedback = await feedbackResponse.json();
-        populateFeedbackList(feedback);
+        allFeedback = await feedbackResponse.json();
+        populateFeedbackList(allFeedback);
         
       } catch (error) {
         console.error('Error loading data:', error);
       }
     }
 
-    // MODIFIED FUNCTION - Only changed the delete button part
+    function filterEvents() {
+      const searchTerm = document.getElementById('events-search').value.toLowerCase();
+      const filteredEvents = allEvents.filter(event => 
+        event.title.toLowerCase().includes(searchTerm) ||
+        event.location.toLowerCase().includes(searchTerm) ||
+        event.date.toLowerCase().includes(searchTerm)
+      );
+      
+      populateEventsTable(filteredEvents);
+      document.getElementById('events-no-results').classList.toggle('hidden', filteredEvents.length > 0);
+    }
+
+    function filterRegistrations() {
+      const eventFilter = document.getElementById('event-filter').value;
+      const searchTerm = document.getElementById('registration-search').value.toLowerCase();
+      const statusFilter = document.getElementById('status-filter').value;
+      
+      const filteredRegistrations = allRegistrations.filter(reg => {
+        const matchesEvent = eventFilter === "" || reg.event_name === eventFilter;
+        const matchesSearch = searchTerm === "" || 
+          reg.username.toLowerCase().includes(searchTerm) || 
+          reg.email.toLowerCase().includes(searchTerm);
+        const matchesStatus = statusFilter === "" || 
+          (statusFilter === "true" && reg.checked_in === "true") ||
+          (statusFilter === "false" && reg.checked_in !== "true");
+        
+        return matchesEvent && matchesSearch && matchesStatus;
+      });
+      
+      populateRegistrationsTable(filteredRegistrations);
+      document.getElementById('registrations-no-results').classList.toggle('hidden', filteredRegistrations.length > 0);
+    }
+
+    function filterFeedback() {
+      const eventFilter = document.getElementById('feedback-event-filter').value;
+      const ratingFilter = document.getElementById('feedback-rating-filter').value;
+      const searchTerm = document.getElementById('feedback-search').value.toLowerCase();
+      
+      const filteredFeedback = allFeedback.filter(feedback => {
+        const matchesEvent = eventFilter === "" || feedback.event_name === eventFilter;
+        const matchesRating = ratingFilter === "" || feedback.rating.toString() === ratingFilter;
+        const matchesSearch = searchTerm === "" || 
+          (feedback.comments && feedback.comments.toLowerCase().includes(searchTerm));
+        
+        return matchesEvent && matchesRating && matchesSearch;
+      });
+      
+      populateFeedbackList(filteredFeedback);
+      document.getElementById('feedback-no-results').classList.toggle('hidden', filteredFeedback.length > 0);
+    }
+
     function populateEventsTable(events) {
       const tableBody = document.getElementById('events-table-body');
       tableBody.innerHTML = '';
@@ -391,7 +482,6 @@
       });
     }
 
-    // NEW FUNCTION ADDED
     async function deleteEvent(title) {
       if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
         return;
@@ -418,7 +508,6 @@
     // Make the deleteEvent function available globally
     window.deleteEvent = deleteEvent;
 
-    // ALL FUNCTIONS BELOW REMAIN UNCHANGED
     function populateRegistrationsTable(registrations) {
       const tableBody = document.getElementById('registrations-table-body');
       tableBody.innerHTML = '';
@@ -470,9 +559,17 @@
       const eventFilter = document.getElementById('event-filter');
       const feedbackEventFilter = document.getElementById('feedback-event-filter');
       
+      // Clear existing options except the first one
+      while (eventFilter.options.length > 1) {
+        eventFilter.remove(1);
+      }
+      while (feedbackEventFilter.options.length > 1) {
+        feedbackEventFilter.remove(1);
+      }
+      
       events.forEach(event => {
         const option = document.createElement('option');
-        option.value = event.id;
+        option.value = event.title;
         option.textContent = event.title;
         eventFilter.appendChild(option.cloneNode(true));
         feedbackEventFilter.appendChild(option.cloneNode(true));
@@ -490,7 +587,7 @@
       modal.classList.remove('hidden');
     }
 
-    // Helper functions (UNCHANGED)
+    // Helper functions
     function formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
       return new Date(dateString).toLocaleDateString('en-US', options);
@@ -516,6 +613,6 @@
       }
       return stars;
     }
-</script>
+  </script>
 </body>
 </html>

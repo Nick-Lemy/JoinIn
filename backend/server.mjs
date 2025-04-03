@@ -58,7 +58,7 @@ app.get("/account", (req, res) => {
   return res.sendFile(path.join(__dirname + "account.html"));
 });
 
-app.get("/registrations", async (req, res) => {
+app.get("/registrations", adminAuthVerification, async (req, res) => {
   try {
     const eventsRegistred = await db.sql(`
       USE DATABASE database.sqlite; 
@@ -94,7 +94,7 @@ app.get("/registrations", async (req, res) => {
   }
 });
 
-app.get("/feedbacks", async (req, res) => {
+app.get("/feedbacks", adminAuthVerification, async (req, res) => {
   const feedbacks = await db.sql(`
     USE DATABASE database.sqlite; 
     SELECT * FROM feedback;
@@ -237,7 +237,7 @@ app.delete("/admin/event/:title", async (req, res) => {
   }
 });
 
-app.post("/admin/event", async (req, res) => {
+app.post("/admin/event", adminAuthVerification, async (req, res) => {
   const { title, description, image_link, date, location, max_attendees } =
     req.body;
 
@@ -325,7 +325,7 @@ app.get("/registrations/all", async (req, res) => {
 
 // Admin
 
-app.get("/admin", async (req, res) => {
+app.get("/admin", adminAuthVerification, async (req, res) => {
   return res.sendFile(path.join(__dirname + "admin_dashbord.html"));
 });
 
