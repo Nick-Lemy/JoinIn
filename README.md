@@ -117,4 +117,5 @@ http://localhost:${PORT}
 ```
 
 ## Conclusion
+
 JoinIn offers an innovative solution to enhance event coordination and engagement within the African Leadership Community. By leveraging a simple, QR-code-based system and a streamlined interface, it empowers users to stay informed and participate effortlessly in community events. Whether you're an organizer or an attendee, JoinIn simplifies the process, making event management more efficient and accessible. With its open-source availability and straightforward setup, it also invites collaboration and customization for broader impact.
