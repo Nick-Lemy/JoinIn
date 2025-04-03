@@ -6,11 +6,13 @@ Website link: [click here to "JoinIn"](https://joinin.nick-lemy.tech)
 
 ## Table of Content
 
-### [1. Description](https://github.com/Nick-Lemy/JoinIn?tab=readme-ov-file#description)
+### [1. Description](#description)
 
-### [2. User Manual](#description)
+### [2. User Manual](#user-manual)
 
-### [1. Conclusion](https://github.com/Nick-Lemy/JoinIn?tab=readme-ov-file#description)
+### [3. Local Runing](#runing-the-website-on-local)
+
+### [4. Conclusion](#conclusion)
 
 ## Description
 
